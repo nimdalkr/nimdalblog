@@ -1,6 +1,6 @@
 # Personal Blog Starter
 
-`blog.koriel.kr` 같은 분위기의 개인 기술 블로그를 빠르게 시작할 수 있도록 만든 Astro 기반 스타터입니다.
+`blog.nimdal.xyz` 같은 분위기의 개인 기술 블로그를 빠르게 시작할 수 있도록 만든 Astro 기반 스타터입니다.
 
 ## 시작하기
 
@@ -15,7 +15,7 @@ npm run dev
 
 배포 후 `/admin` 경로에서 Decap CMS 에디터를 사용할 수 있습니다.
 
-- 프로덕션 에디터: `https://blog.koriel.kr/admin`
+- 프로덕션 에디터: `https://blog.nimdal.xyz/admin`
 - 업로드 파일 저장 위치: `public/uploads`
 - 글 원본 저장 위치: `src/content/posts`
 
@@ -35,8 +35,8 @@ GITHUB_OAUTH_SCOPE=public_repo
 
 GitHub `Settings > Developer settings > OAuth Apps > New OAuth App`에서 아래처럼 등록합니다.
 
-- Homepage URL: `https://blog.koriel.kr`
-- Authorization callback URL: `https://blog.koriel.kr/callback`
+- Homepage URL: `https://blog.nimdal.xyz`
+- Authorization callback URL: `https://blog.nimdal.xyz/callback`
 
 GitHub 문서상 OAuth App은 하나의 callback URL만 가질 수 있으므로, CMS 로그인은 프로덕션 도메인을 기준으로 설정하는 편이 안전합니다.
 

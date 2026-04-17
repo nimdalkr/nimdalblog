@@ -2,11 +2,11 @@ backend:
   name: github
   repo: nimdalkr/nimdalblog
   branch: main
-  base_url: https://blog.koriel.kr
+  base_url: https://blog.nimdal.xyz
   auth_endpoint: auth
 
-site_url: https://blog.koriel.kr
-display_url: https://blog.koriel.kr
+site_url: https://blog.nimdal.xyz
+display_url: https://blog.nimdal.xyz
 logo_url: /favicon.svg
 locale: en
 search: true

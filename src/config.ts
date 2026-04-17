@@ -3,8 +3,8 @@ export const SITE = {
   author: "Jinsoo Heo",
   description:
     "DevOps, Kubernetes, Web3, and infrastructure engineering notes for developers and technical teams.",
-  siteUrl: "https://blog.koriel.kr",
-  email: "hello@koriel.kr",
+  siteUrl: "https://blog.nimdal.xyz",
+  email: "0xnimdal@gmail.com",
   tagline: "Clean, functional, implementation-oriented writing.",
   intro:
     "Implementation-focused notes on infrastructure, automation, Kubernetes, Web3, and the decisions behind running technical systems.",
