@@ -1,0 +1,28 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+}
+
+const { href, title, description, pubDate, tags } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+  year: "numeric",
+  month: "short",
+  day: "numeric"
+}).format(pubDate);
+---
+
+<article class="post-card">
+  <p class="eyebrow">{formattedDate}</p>
+  <h3>
+    <a href={href}>{title}</a>
+  </h3>
+  <p>{description}</p>
+  <ul class="tag-list" aria-label="Tags">
+    {tags.map(tag => <li>{tag}</li>)}
+  </ul>
+</article>

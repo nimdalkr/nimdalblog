@@ -1,0 +1,33 @@
+---
+import { SITE } from "../config";
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <a class="brand" href="/">
+    <span class="brand-mark">N</span>
+    <span>
+      <strong>{SITE.title}</strong>
+      <small>{SITE.tagline}</small>
+    </span>
+  </a>
+
+  <nav aria-label="Primary navigation">
+    <ul class="nav-list">
+      {SITE.navigation.map(item => {
+        const isActive =
+          item.href === "/"
+            ? currentPath === "/"
+            : currentPath.startsWith(item.href);
+
+        return (
+          <li>
+            <a class:list={["nav-link", { active: isActive }]} href={item.href}>
+              {item.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+</header>

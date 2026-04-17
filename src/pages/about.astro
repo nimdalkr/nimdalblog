@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config";
+---
+
+<BaseLayout title={`About | ${SITE.title}`} description="블로그 소개와 작성 방향">
+  <section class="content-page">
+    <p class="eyebrow">About this blog</p>
+    <h1>어떤 블로그로 만들었는가</h1>
+    <p>
+      이 블로그는 빠르게 소비되는 링크 모음이 아니라, 시간이 지나도 다시 찾아볼 수 있는
+      글을 쌓기 위한 공간입니다. 기술 스택 소개보다 실제로 부딪힌 문제, 판단 기준,
+      구현 과정, 그리고 운영하면서 바뀐 생각을 중심으로 씁니다.
+    </p>
+    <p>
+      레이아웃은 가볍고 읽기 쉽게 유지했고, 첫 화면에서는 작성자 톤과 관심사를 바로
+      파악할 수 있게 구성했습니다. 글이 늘어나면 태그, 아카이브, RSS, 검색 같은 기능을
+      추가하기 쉽게 Astro 구조로 잡았습니다.
+    </p>
+
+    <div class="note-panel">
+      <h2>추천 커스터마이즈</h2>
+      <ul>
+        <li>`src/config.ts`에서 사이트명, 소개, 이메일, 네비게이션을 바꾸기</li>
+        <li>`src/content/posts`에 본인 글을 Markdown으로 추가하기</li>
+        <li>`src/styles/global.css`에서 컬러와 타이포그래피를 취향에 맞게 조정하기</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

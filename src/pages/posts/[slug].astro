@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE } from "../../config";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+}).format(post.data.pubDate);
+---
+
+<BaseLayout
+  title={`${post.data.title} | ${SITE.title}`}
+  description={post.data.description}
+>
+  <article class="post-page">
+    <a class="back-link" href="/posts">← 글 목록으로</a>
+    <p class="eyebrow">{formattedDate}</p>
+    <h1>{post.data.title}</h1>
+    <p class="page-intro">{post.data.description}</p>
+    <ul class="tag-list">
+      {post.data.tags.map((tag: string) => <li>{tag}</li>)}
+    </ul>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

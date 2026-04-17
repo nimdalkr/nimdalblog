@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import { SITE } from "../config";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const featuredPosts = posts.filter(post => post.data.featured).slice(0, 2);
+const recentPosts = posts.slice(0, 4);
+---
+
+<BaseLayout title={`${SITE.title} | Home`} description={SITE.description}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Personal engineering log</p>
+      <h1>나만의 개발 기록을 차분하게 쌓는 블로그</h1>
+      <p class="hero-text">{SITE.intro}</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/posts">글 보러가기</a>
+        <a class="button secondary" href="/about">소개 보기</a>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <p class="panel-label">Snapshot</p>
+      <dl class="snapshot-grid">
+        <div>
+          <dt>Based in</dt>
+          <dd>{SITE.location}</dd>
+        </div>
+        <div>
+          <dt>Writing about</dt>
+          <dd>Infra, tooling, product notes</dd>
+        </div>
+        <div>
+          <dt>Style</dt>
+          <dd>실전 경험 중심의 짧고 밀도 높은 기록</dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <p class="eyebrow">Focus</p>
+      <h2>대표 주제</h2>
+    </div>
+    <ul class="topic-grid">
+      {SITE.featuredTopics.map(topic => <li>{topic}</li>)}
+    </ul>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <p class="eyebrow">Featured</p>
+      <h2>먼저 읽으면 좋은 글</h2>
+    </div>
+    <div class="post-grid">
+      {featuredPosts.map(post => (
+        <PostCard
+          href={`/posts/${post.slug}/`}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <p class="eyebrow">Recent</p>
+      <h2>최신 글</h2>
+    </div>
+    <div class="post-grid">
+      {recentPosts.map(post => (
+        <PostCard
+          href={`/posts/${post.slug}/`}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
