@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
     "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/vercel": "^8.2.8",
     "astro": "^5.16.6"
   },
   "devDependencies": {

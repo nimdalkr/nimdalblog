@@ -1,0 +1,43 @@
+backend:
+  name: github
+  repo: nimdalkr/nimdalblog
+  branch: main
+  base_url: https://blog.koriel.kr
+  auth_endpoint: auth
+
+site_url: https://blog.koriel.kr
+display_url: https://blog.koriel.kr
+logo_url: /favicon.svg
+locale: en
+search: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Posts
+    label_singular: Post
+    description: Long-form technical notes and implementation writeups
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} - {{year}}-{{month}}-{{day}}"
+    sortable_fields: ["pubDate", "title"]
+    editor:
+      preview: true
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish Date, name: pubDate, widget: datetime }
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+      - { label: Featured, name: featured, widget: boolean, required: false, default: false }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Hero Image, name: hero, widget: image, required: false }
+      - { label: Body, name: body, widget: markdown }
