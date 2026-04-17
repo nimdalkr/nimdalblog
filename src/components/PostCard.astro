@@ -17,9 +17,12 @@ const formattedDate = new Intl.DateTimeFormat("ko-KR", {
 ---
 
 <article class="post-card">
-  <p class="eyebrow">{formattedDate}</p>
+  <div class="post-meta">
+    <p class="eyebrow">{formattedDate}</p>
+    <span class="post-status">Published</span>
+  </div>
   <h3>
-    <a href={href}>{title}</a>
+    <a class="post-link" href={href}>{title}</a>
   </h3>
   <p>{description}</p>
   <ul class="tag-list" aria-label="Tags">

@@ -12,9 +12,9 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 <BaseLayout title={`Posts | ${SITE.title}`} description="블로그 글 목록">
   <section class="content-page">
     <p class="eyebrow">Archive</p>
-    <h1>모든 글</h1>
+    <h1>All posts</h1>
     <p class="page-intro">
-      운영 기록, 자동화 실험, 개발 메모를 짧고 읽기 쉽게 정리합니다.
+      Operational notes, automation experiments, and implementation details that can be reused by teams.
     </p>
 
     <div class="post-grid">

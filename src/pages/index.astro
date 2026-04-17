@@ -15,17 +15,22 @@ const recentPosts = posts.slice(0, 4);
 <BaseLayout title={`${SITE.title} | Home`} description={SITE.description}>
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">Personal engineering log</p>
-      <h1>나만의 개발 기록을 차분하게 쌓는 블로그</h1>
+      <p class="eyebrow">Implementation-ready engineering notes</p>
+      <h1>Clean signals for developers and technical teams.</h1>
       <p class="hero-text">{SITE.intro}</p>
+      <ul class="hero-points" aria-label="Core principles">
+        <li>Favor reusable decisions over one-off commentary.</li>
+        <li>Explain operations and implementation details before tooling hype.</li>
+        <li>Keep writing concise, direct, and easy to scan.</li>
+      </ul>
       <div class="hero-actions">
-        <a class="button primary" href="/posts">글 보러가기</a>
-        <a class="button secondary" href="/about">소개 보기</a>
+        <a class="button primary" href="/posts">Read posts</a>
+        <a class="button secondary" href="/about">About the site</a>
       </div>
     </div>
 
     <aside class="hero-panel">
-      <p class="panel-label">Snapshot</p>
+      <p class="panel-label">Site snapshot</p>
       <dl class="snapshot-grid">
         <div>
           <dt>Based in</dt>
@@ -36,8 +41,12 @@ const recentPosts = posts.slice(0, 4);
           <dd>Infra, tooling, product notes</dd>
         </div>
         <div>
-          <dt>Style</dt>
-          <dd>실전 경험 중심의 짧고 밀도 높은 기록</dd>
+          <dt>Audience</dt>
+          <dd>Developers and technical teams</dd>
+        </div>
+        <div>
+          <dt>Format</dt>
+          <dd>Content-first, searchable, static delivery</dd>
         </div>
       </dl>
     </aside>
@@ -45,8 +54,29 @@ const recentPosts = posts.slice(0, 4);
 
   <section class="section-block">
     <div class="section-heading">
-      <p class="eyebrow">Focus</p>
-      <h2>대표 주제</h2>
+      <p class="eyebrow">Foundations</p>
+      <h2>What this blog optimizes for</h2>
+    </div>
+    <div class="rule-grid">
+      <article class="rule-card">
+        <h3>Consistency</h3>
+        <p>Use token-based spacing, typography, and state rules so every page feels related.</p>
+      </article>
+      <article class="rule-card">
+        <h3>Accessibility</h3>
+        <p>Keep strong focus states, stable contrast, and keyboard-first interactions as defaults.</p>
+      </article>
+      <article class="rule-card">
+        <h3>Fast delivery</h3>
+        <p>Rely on static generation and simple components to keep publishing fast.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <p class="eyebrow">Topics</p>
+      <h2>Core topics</h2>
     </div>
     <ul class="topic-grid">
       {SITE.featuredTopics.map(topic => <li>{topic}</li>)}
@@ -56,7 +86,7 @@ const recentPosts = posts.slice(0, 4);
   <section class="section-block">
     <div class="section-heading">
       <p class="eyebrow">Featured</p>
-      <h2>먼저 읽으면 좋은 글</h2>
+      <h2>Start here</h2>
     </div>
     <div class="post-grid">
       {featuredPosts.map(post => (
@@ -74,7 +104,7 @@ const recentPosts = posts.slice(0, 4);
   <section class="section-block">
     <div class="section-heading">
       <p class="eyebrow">Recent</p>
-      <h2>최신 글</h2>
+      <h2>Latest posts</h2>
     </div>
     <div class="post-grid">
       {recentPosts.map(post => (

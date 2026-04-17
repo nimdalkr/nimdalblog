@@ -5,7 +5,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <a class="brand" href="/">
-    <span class="brand-mark">N</span>
+    <span class="brand-mark">D</span>
     <span>
       <strong>{SITE.title}</strong>
       <small>{SITE.tagline}</small>
@@ -22,7 +22,11 @@ const currentPath = Astro.url.pathname;
 
         return (
           <li>
-            <a class:list={["nav-link", { active: isActive }]} href={item.href}>
+            <a
+              class:list={["nav-link", { active: isActive }]}
+              aria-current={isActive ? "page" : undefined}
+              href={item.href}
+            >
               {item.label}
             </a>
           </li>
