@@ -10,6 +10,7 @@ display_url: https://blog.nimdal.xyz
 logo_url: /favicon.svg
 locale: en
 search: true
+custom_css: /admin/custom.css
 
 media_folder: public/uploads
 public_folder: /uploads

@@ -26,9 +26,10 @@ const formattedDate = new Intl.DateTimeFormat("ko-KR", {
   title={`${post.data.title} | ${SITE.title}`}
   description={post.data.description}
 >
-  <article class="post-page">
-    <a class="back-link" href="/posts">← Back to posts</a>
-    <p class="eyebrow">{formattedDate}</p>
+  <article class="post-page terminal-panel">
+    <p class="prompt-line">$ cat posts/{post.slug}.md</p>
+    <a class="back-link" href="/posts">&lt;- back to posts</a>
+    <p class="eyebrow">[{formattedDate}]</p>
     <h1>{post.data.title}</h1>
     <p class="page-intro">{post.data.description}</p>
     <ul class="tag-list">

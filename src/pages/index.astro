@@ -10,52 +10,70 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 
 const featuredPosts = posts.filter(post => post.data.featured).slice(0, 2);
 const recentPosts = posts.slice(0, 4);
+const asciiLogo = ` ____  _______     __ _  __  ___   ____  ___ _____ _     
+|  _ \\| ____\\ \\   / /| |/ / / _ \\ |  _ \\|_ _| ____| |    
+| | | |  _|  \\ \\ / / | ' / | | | || |_) || ||  _| | |    
+| |_| | |___  \\ V /  | . \\ | |_| ||  _ < | || |___| |___ 
+|____/|_____|  \\_/   |_|\\_\\ \\___/ |_| \\_\\___|_____|_____|`;
 ---
 
 <BaseLayout title={`${SITE.title} | Home`} description={SITE.description}>
-  <section class="hero">
+  <section class="hero terminal-panel">
     <div class="hero-copy">
-      <p class="eyebrow">Implementation-ready engineering notes</p>
-      <h1>Clean signals for developers and technical teams.</h1>
-      <p class="hero-text">{SITE.intro}</p>
+      <p class="prompt-line">$ cat /etc/devkoriel</p>
+      <pre class="ascii-name">{asciiLogo}</pre>
+      <div class="terminal-copy">
+        <p class="hero-text">{SITE.intro}</p>
+        <p class="helper-copy">
+          A terminal-toned writing space for implementation notes, operating decisions, and
+          system logs that survive after the hype cycle is gone.
+        </p>
+      </div>
       <ul class="hero-points" aria-label="Core principles">
         <li>Favor reusable decisions over one-off commentary.</li>
         <li>Explain operations and implementation details before tooling hype.</li>
         <li>Keep writing concise, direct, and easy to scan.</li>
       </ul>
       <div class="hero-actions">
-        <a class="button primary" href="/posts">Read posts</a>
-        <a class="button secondary" href="/about">About the site</a>
+        <a class="button primary" href="/posts">open logs</a>
+        <a class="button secondary" href="/about">read system note</a>
       </div>
     </div>
 
     <aside class="hero-panel">
-      <p class="panel-label">Site snapshot</p>
-      <dl class="snapshot-grid">
-        <div>
-          <dt>Based in</dt>
-          <dd>{SITE.location}</dd>
+      <p class="resume-title">// runtime</p>
+      <div class="status-table">
+        <div class="status-row">
+          <span class="status-key">location</span>
+          <span class="status-value">{SITE.location}</span>
         </div>
-        <div>
-          <dt>Writing about</dt>
-          <dd>Infra, tooling, product notes</dd>
+        <div class="status-row">
+          <span class="status-key">audience</span>
+          <span class="status-value">developers / technical teams</span>
         </div>
-        <div>
-          <dt>Audience</dt>
-          <dd>Developers and technical teams</dd>
+        <div class="status-row">
+          <span class="status-key">delivery</span>
+          <span class="status-value">static output + cms publishing</span>
         </div>
-        <div>
-          <dt>Format</dt>
-          <dd>Content-first, searchable, static delivery</dd>
+        <div class="status-row">
+          <span class="status-key">editor</span>
+          <span class="status-value">/admin :: decap control plane</span>
         </div>
-      </dl>
+      </div>
+      <a class="signal-badge" href="/admin">
+        <span class="signal-dot" aria-hidden="true">
+          *
+        </span>
+        CMS CONTROL -- OPEN PANEL
+      </a>
     </aside>
   </section>
 
-  <section class="section-block">
+  <section class="section-block terminal-panel">
+    <p class="prompt-line">$ ls ./foundations</p>
     <div class="section-heading">
-      <p class="eyebrow">Foundations</p>
-      <h2>What this blog optimizes for</h2>
+      <p class="eyebrow">foundations</p>
+      <h2>What this log optimizes for</h2>
     </div>
     <div class="rule-grid">
       <article class="rule-card">
@@ -73,9 +91,10 @@ const recentPosts = posts.slice(0, 4);
     </div>
   </section>
 
-  <section class="section-block">
+  <section class="section-block terminal-panel">
+    <p class="prompt-line">$ ls ./topics</p>
     <div class="section-heading">
-      <p class="eyebrow">Topics</p>
+      <p class="eyebrow">topics</p>
       <h2>Core topics</h2>
     </div>
     <ul class="topic-grid">
@@ -83,9 +102,10 @@ const recentPosts = posts.slice(0, 4);
     </ul>
   </section>
 
-  <section class="section-block">
+  <section class="section-block terminal-panel">
+    <p class="prompt-line">$ ls ./featured</p>
     <div class="section-heading">
-      <p class="eyebrow">Featured</p>
+      <p class="eyebrow">featured</p>
       <h2>Start here</h2>
     </div>
     <div class="post-grid">
@@ -101,9 +121,10 @@ const recentPosts = posts.slice(0, 4);
     </div>
   </section>
 
-  <section class="section-block">
+  <section class="section-block terminal-panel">
+    <p class="prompt-line">$ tail -n 4 ./recent</p>
     <div class="section-heading">
-      <p class="eyebrow">Recent</p>
+      <p class="eyebrow">recent</p>
       <h2>Latest posts</h2>
     </div>
     <div class="post-grid">

@@ -3,9 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE } from "../config";
 ---
 
-<BaseLayout title={`About | ${SITE.title}`} description="블로그 소개와 작성 방향">
-  <section class="content-page">
-    <p class="eyebrow">About this blog</p>
+<BaseLayout title={`About | ${SITE.title}`} description="About this blog">
+  <section class="content-page terminal-panel">
+    <p class="prompt-line">$ cat about.md</p>
+    <p class="eyebrow">about this blog</p>
     <h1>Functional, consistent, and easy to ship.</h1>
     <p>
       This blog focuses on implementation and operational tradeoffs rather than polished marketing copy.
@@ -13,8 +14,8 @@ import { SITE } from "../config";
     </p>
     <p>
       The homepage should communicate the author's domain quickly, and the article page should keep
-      reading comfort above decoration. That is why the visual system uses restrained surfaces, stronger
-      borders, and explicit interaction states.
+      reading comfort above decoration. That is why the visual system now follows the same terminal-like
+      language as `nimdal.xyz`: darker surfaces, low-noise structure, and clear command metaphors.
     </p>
 
     <div class="note-panel">
@@ -22,7 +23,7 @@ import { SITE } from "../config";
       <ul>
         <li>Update `src/config.ts` to change brand metadata and core topics.</li>
         <li>Add Markdown files in `src/content/posts` to publish new static pages.</li>
-        <li>Edit semantic tokens in `src/styles/global.css` to retheme the full site.</li>
+        <li>Use `/admin` for browser-based writing, media upload, and publishing.</li>
       </ul>
     </div>
   </section>

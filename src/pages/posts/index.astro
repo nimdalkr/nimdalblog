@@ -9,9 +9,10 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 );
 ---
 
-<BaseLayout title={`Posts | ${SITE.title}`} description="블로그 글 목록">
-  <section class="content-page">
-    <p class="eyebrow">Archive</p>
+<BaseLayout title={`Posts | ${SITE.title}`} description="All posts">
+  <section class="content-page terminal-panel">
+    <p class="prompt-line">$ ls -la /posts</p>
+    <p class="eyebrow">archive</p>
     <h1>All posts</h1>
     <p class="page-intro">
       Operational notes, automation experiments, and implementation details that can be reused by teams.

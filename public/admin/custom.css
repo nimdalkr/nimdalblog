@@ -1,0 +1,81 @@
+:root {
+  --admin-bg: #0f1210;
+  --admin-surface: #161a15;
+  --admin-surface-soft: rgba(22, 26, 21, 0.92);
+  --admin-fg: #d4d8d0;
+  --admin-dim: #5a6058;
+  --admin-accent: #4ade80;
+  --admin-border: #2a2e28;
+  --admin-accent-border: #2a5c38;
+  --admin-font: "Geist Variable", "Geist Mono", "Courier New", monospace;
+}
+
+body,
+#nc-root,
+#nc-root * {
+  font-family: var(--admin-font) !important;
+}
+
+#nc-root {
+  color: var(--admin-fg);
+}
+
+#nc-root a {
+  color: var(--admin-accent);
+}
+
+#nc-root button,
+#nc-root input,
+#nc-root textarea,
+#nc-root select {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#nc-root button,
+#nc-root [role="button"] {
+  border: 1px solid var(--admin-accent-border) !important;
+  background: rgba(74, 222, 128, 0.08) !important;
+  color: var(--admin-fg) !important;
+}
+
+#nc-root button:hover,
+#nc-root [role="button"]:hover {
+  background: rgba(74, 222, 128, 0.14) !important;
+}
+
+#nc-root input,
+#nc-root textarea,
+#nc-root select {
+  border: 1px solid var(--admin-border) !important;
+  background: var(--admin-surface) !important;
+  color: var(--admin-fg) !important;
+}
+
+#nc-root [role="dialog"],
+#nc-root [class*="Modal"],
+#nc-root [class*="Toolbar"],
+#nc-root [class*="Card"],
+#nc-root [class*="Pane"],
+#nc-root [class*="TopBar"],
+#nc-root [class*="Editor"],
+#nc-root [class*="Collection"] {
+  box-shadow: none !important;
+}
+
+#nc-root [class*="Sidebar"],
+#nc-root [class*="TopBar"],
+#nc-root [class*="Toolbar"],
+#nc-root [class*="EditorContainer"],
+#nc-root [class*="CollectionTop"] {
+  background: var(--admin-surface-soft) !important;
+  color: var(--admin-fg) !important;
+}
+
+#nc-root [class*="Pane"],
+#nc-root [class*="Card"],
+#nc-root [class*="ControlPaneContainer"],
+#nc-root [class*="PreviewPaneContainer"] {
+  background: transparent !important;
+  color: var(--admin-fg) !important;
+}

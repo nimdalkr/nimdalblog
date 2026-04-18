@@ -1,18 +1,47 @@
 ---
 import { SITE } from "../config";
+
 const currentPath = Astro.url.pathname;
+const activeLabel = currentPath === "/" ? "/home" : currentPath;
+const host = new URL(SITE.siteUrl).host;
 ---
 
-<header class="site-header">
-  <a class="brand" href="/">
-    <span class="brand-mark">D</span>
-    <span>
-      <strong>{SITE.title}</strong>
-      <small>{SITE.tagline}</small>
-    </span>
-  </a>
+<header class="site-header runtime-strip">
+  <div class="runtime-grid">
+    <div class="runtime-row">
+      <span class="runtime-label">SYS.NAME</span>
+      <a class="brand" href="/">
+        <span class="brand-mark">D</span>
+        <span class="runtime-value">DEVKORIEL_BLOG</span>
+      </a>
+    </div>
+    <div class="runtime-row">
+      <span class="runtime-label">SYS.AUTH</span>
+      <span class="runtime-value is-accent">PUBLIC_READ</span>
+    </div>
+    <div class="runtime-row">
+      <span class="runtime-label">SYS.NODE</span>
+      <span class="runtime-value">{host}</span>
+    </div>
+  </div>
 
-  <nav aria-label="Primary navigation">
+  <div class="runtime-grid runtime-grid-right">
+    <div class="runtime-row runtime-row-right">
+      <span class="runtime-label">ACTIVE</span>
+      <span class="runtime-value">{activeLabel}</span>
+    </div>
+    <div class="runtime-row runtime-row-right">
+      <span class="runtime-label">AUTHOR</span>
+      <span class="runtime-value">{SITE.author}</span>
+    </div>
+    <div class="runtime-row runtime-row-right">
+      <span class="runtime-label">STATUS</span>
+      <span class="runtime-value is-orange">CONTENT_LIVE</span>
+    </div>
+  </div>
+
+  <nav class="nav-shell" aria-label="Primary navigation">
+    <span class="module-prefix">root@devkoriel/nav &gt; select module</span>
     <ul class="nav-list">
       {SITE.navigation.map(item => {
         const isActive =
@@ -27,7 +56,7 @@ const currentPath = Astro.url.pathname;
               aria-current={isActive ? "page" : undefined}
               href={item.href}
             >
-              {item.label}
+              {isActive ? `> ${item.label}` : item.label}
             </a>
           </li>
         );
