@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getPublicOrigin } from "../utils/publicOrigin";
 
 export const prerender = false;
 
@@ -24,6 +25,7 @@ const html = (payload: string) => `<!doctype html>
 
 export const GET: APIRoute = async ({ request, cookies }) => {
   const url = new URL(request.url);
+  const origin = getPublicOrigin({ headers: request.headers, url: request.url });
   const code = url.searchParams.get("code");
   const returnedState = url.searchParams.get("state");
   const error = url.searchParams.get("error");
@@ -94,7 +96,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
       client_id: clientId,
       client_secret: clientSecret,
       code,
-      redirect_uri: new URL("/callback", url.origin).toString()
+      redirect_uri: new URL("/callback", origin).toString()
     })
   });
 

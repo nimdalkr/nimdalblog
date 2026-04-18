@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getPublicOrigin } from "../utils/publicOrigin";
 
 export const prerender = false;
 
@@ -14,10 +15,11 @@ const escapeForHtml = (value: string) =>
 
 export const GET: APIRoute = async ({ request, cookies }) => {
   const url = new URL(request.url);
+  const origin = getPublicOrigin({ headers: request.headers, url: request.url });
   const provider = url.searchParams.get("provider") ?? "github";
   const clientId = process.env.GITHUB_OAUTH_CLIENT_ID;
   const scope = process.env.GITHUB_OAUTH_SCOPE || "public_repo";
-  const callbackUrl = new URL("/callback", url.origin);
+  const callbackUrl = new URL("/callback", origin);
   const state = crypto.randomUUID();
 
   cookies.set(STATE_COOKIE, state, {
