@@ -1,13 +1,13 @@
 export const SITE = {
-  title: "devkoriel",
-  author: "Jinsoo Heo",
+  title: "nimdal",
+  author: "탁찬우",
   description:
-    "DevOps, Kubernetes, Web3, and infrastructure engineering notes for developers and technical teams.",
+    "nimdal's technical notes on building, operating, and documenting software systems.",
   siteUrl: "https://blog.nimdal.xyz",
   email: "0xnimdal@gmail.com",
-  tagline: "Clean, functional, implementation-oriented writing.",
+  tagline: "Direct notes on software, systems, and the work behind them.",
   intro:
-    "Implementation-focused notes on infrastructure, automation, Kubernetes, Web3, and the decisions behind running technical systems.",
+    "A personal engineering log by nimdal, covering software, infrastructure, automation, and the decisions behind shipping systems.",
   location: "Seoul, South Korea",
   navigation: [
     { href: "/", label: "Home" },

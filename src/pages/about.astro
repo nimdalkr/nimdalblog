@@ -7,21 +7,21 @@ import { SITE } from "../config";
   <section class="content-page terminal-panel">
     <p class="prompt-line">$ cat about.md</p>
     <p class="eyebrow">about this blog</p>
-    <h1>Functional, consistent, and easy to ship.</h1>
+    <h1>nimdal / 탁찬우</h1>
     <p>
-      This blog focuses on implementation and operational tradeoffs rather than polished marketing copy.
-      The layout stays deliberately simple so new posts can ship without creating local style exceptions.
+      This is a personal engineering blog run by nimdal. The goal is to keep technical writing direct,
+      easy to maintain, and practical enough to be useful later.
     </p>
     <p>
-      The homepage should communicate the author's domain quickly, and the article page should keep
-      reading comfort above decoration. That is why the visual system now follows the same terminal-like
-      language as `nimdal.xyz`: darker surfaces, low-noise structure, and clear command metaphors.
+      The visual system borrows the terminal-like atmosphere from `nimdal.xyz`, but the content and
+      identity here are specific to this site. It is meant to document software work, experiments,
+      and operational notes without copying another person's profile or editorial voice.
     </p>
 
     <div class="note-panel">
-      <h2>Implementation notes</h2>
+      <h2>Site notes</h2>
       <ul>
-        <li>Update `src/config.ts` to change brand metadata and core topics.</li>
+        <li>Brand metadata lives in `src/config.ts`.</li>
         <li>Add Markdown files in `src/content/posts` to publish new static pages.</li>
         <li>Use `/admin` for browser-based writing, media upload, and publishing.</li>
       </ul>
