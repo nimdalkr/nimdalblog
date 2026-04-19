@@ -14,5 +14,5 @@ export const SITE = {
     { href: "/posts", label: "Posts" },
     { href: "/about", label: "About" }
   ],
-  featuredTopics: ["DevOps", "Kubernetes", "Web3", "Automation", "Engineering Notes"]
+  featuredTopics: ["Software", "Infrastructure", "Automation", "Experiments", "Engineering Notes"]
 } as const;
