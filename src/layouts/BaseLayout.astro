@@ -1,7 +1,4 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import "../styles/global.css";
 import { SITE } from "../config";
 
 interface Props {
@@ -21,22 +18,16 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0f1210" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ffffff" />
     <title>{title}</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #ffffff;
+      }
+    </style>
   </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="page-shell">
-      <div class="page-glow page-glow-left" aria-hidden="true"></div>
-      <div class="page-glow page-glow-right" aria-hidden="true"></div>
-      <div class="site-shell terminal-screen">
-        <Header />
-        <main id="main-content" class="terminal-body">
-          <slot />
-        </main>
-        <Footer />
-      </div>
-    </div>
-  </body>
+  <body></body>
 </html>
