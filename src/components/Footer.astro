@@ -4,35 +4,10 @@ import { SITE } from "../config";
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer terminal-footer">
-  <div class="command-output footer-output">
-    <p class="command-output-heading">quick routes:</p>
-    <div class="command-list">
-      <div class="command-list-row">
-        <span class="command-list-key">/admin</span>
-        <a class="command-list-desc" href="/admin">open cms control plane</a>
-      </div>
-      <div class="command-list-row">
-        <span class="command-list-key">mail</span>
-        <a class="command-list-desc" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      </div>
-      <div class="command-list-row">
-        <span class="command-list-key">node</span>
-        <span class="command-list-desc">{SITE.siteUrl}</span>
-      </div>
-      <div class="command-list-row">
-        <span class="command-list-key">status</span>
-        <span class="command-list-desc">write in markdown, publish via decap cms</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="module-row">
-    <span class="module-prefix">root@nimdal/footer &gt;</span>
-    <div class="module-controls">
-      <span class="control-link is-static">{year} log_online</span>
-      <span class="control-link is-static">{SITE.title}</span>
-      <span class="control-link is-static">public_read</span>
-    </div>
+<footer class="site-footer">
+  <p>{year} {SITE.title}. Personal writing by {SITE.author}.</p>
+  <div class="footer-links">
+    <a href={`mailto:${SITE.email}`}>Email</a>
+    <a href="/admin" rel="nofollow">Admin</a>
   </div>
 </footer>

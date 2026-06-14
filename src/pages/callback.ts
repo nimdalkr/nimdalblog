@@ -118,6 +118,33 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     );
   }
 
+  const allowedLogin = process.env.ADMIN_GITHUB_LOGIN || "nimdalkr";
+  const userResponse = await fetch("https://api.github.com/user", {
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token.access_token}`,
+      "User-Agent": "nimdalblog-admin-auth"
+    }
+  });
+
+  const user = await userResponse.json();
+
+  if (!userResponse.ok || user.login !== allowedLogin) {
+    return new Response(
+      html(
+        `authorization:github:error:${JSON.stringify({
+          message: "This blog can only be edited by the site owner."
+        })}`
+      ),
+      {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store"
+        }
+      }
+    );
+  }
+
   const successPayload = JSON.stringify({
     token: token.access_token,
     access_token: token.access_token,

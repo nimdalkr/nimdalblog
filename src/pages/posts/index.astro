@@ -10,13 +10,13 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
 ---
 
 <BaseLayout title={`Posts | ${SITE.title}`} description="All posts">
-  <section class="content-page terminal-panel">
-    <p class="prompt-line">$ ls -la /posts</p>
-    <p class="eyebrow">archive</p>
+  <section class="page-stack">
+    <div class="page-header">
     <h1>All posts</h1>
     <p class="page-intro">
-      Operational notes, automation experiments, and implementation details that can be reused by teams.
+      개인 작업 기록, 자동화 실험, 제품과 커뮤니티 운영에서 배운 내용을 모읍니다.
     </p>
+    </div>
 
     <div class="post-grid">
       {posts.map(post => (
