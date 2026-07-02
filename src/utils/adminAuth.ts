@@ -1,4 +1,6 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 export const SESSION_COOKIE = "nimdal_admin_session";
 export const STATE_COOKIE = "nimdal_admin_state";
@@ -16,15 +18,17 @@ export type AdminSession = {
 export type PublicAdminSession = Omit<AdminSession, "accessToken" | "exp">;
 
 export function getAdminConfig() {
+  const localEnv = loadLocalEnv();
+
   return {
-    clientId: process.env.GITHUB_CLIENT_ID ?? "",
-    clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
-    allowedLogin: (process.env.GITHUB_ALLOWED_LOGIN ?? "nimdalkr").toLowerCase(),
-    repoOwner: process.env.GITHUB_REPO_OWNER ?? "nimdalkr",
-    repoName: process.env.GITHUB_REPO_NAME ?? "nimdalblog",
-    repoBranch: process.env.GITHUB_REPO_BRANCH ?? "main",
-    sessionSecret: process.env.ADMIN_SESSION_SECRET ?? "",
-    oauthScope: process.env.GITHUB_OAUTH_SCOPE ?? "read:user public_repo"
+    clientId: getEnvValue("GITHUB_CLIENT_ID", localEnv),
+    clientSecret: getEnvValue("GITHUB_CLIENT_SECRET", localEnv),
+    allowedLogin: (getEnvValue("GITHUB_ALLOWED_LOGIN", localEnv) || "nimdalkr").toLowerCase(),
+    repoOwner: getEnvValue("GITHUB_REPO_OWNER", localEnv) || "nimdalkr",
+    repoName: getEnvValue("GITHUB_REPO_NAME", localEnv) || "nimdalblog",
+    repoBranch: getEnvValue("GITHUB_REPO_BRANCH", localEnv) || "main",
+    sessionSecret: getEnvValue("ADMIN_SESSION_SECRET", localEnv),
+    oauthScope: getEnvValue("GITHUB_OAUTH_SCOPE", localEnv) || "read:user public_repo"
   };
 }
 
@@ -116,4 +120,34 @@ export function sessionMaxAge() {
 
 function getEncryptionKey(secret: string) {
   return createHash("sha256").update(secret).digest();
+}
+
+function getEnvValue(key: string, localEnv: Record<string, string>) {
+  return process.env[key] ?? localEnv[key] ?? "";
+}
+
+function loadLocalEnv() {
+  const env: Record<string, string> = {};
+  const files = [".env.local", ".env"];
+
+  for (const file of files) {
+    const path = join(process.cwd(), file);
+    if (!existsSync(path)) continue;
+
+    const content = readFileSync(path, "utf8");
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+
+      const index = trimmed.indexOf("=");
+      if (index === -1) continue;
+
+      const key = trimmed.slice(0, index).trim();
+      const value = trimmed.slice(index + 1).trim().replace(/^["']|["']$/g, "");
+
+      if (key && !(key in env)) env[key] = value;
+    }
+  }
+
+  return env;
 }
