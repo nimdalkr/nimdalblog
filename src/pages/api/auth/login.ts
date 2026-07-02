@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-import { createOAuthState, getAdminConfig, getMissingAuthConfig, isSecureRequest, STATE_COOKIE } from "../../../utils/adminAuth";
+import { createOAuthState, getAdminConfig, getMissingAuthConfig, getOAuthRedirectUri, isSecureRequest, STATE_COOKIE } from "../../../utils/adminAuth";
 
 export const prerender = false;
 
@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ cookies, request, redirect }) => {
 
   const config = getAdminConfig();
   const state = createOAuthState();
-  const redirectUri = new URL("/api/auth/callback/", request.url).toString();
+  const redirectUri = getOAuthRedirectUri(request);
   const authUrl = new URL("https://github.com/login/oauth/authorize");
 
   authUrl.searchParams.set("client_id", config.clientId);

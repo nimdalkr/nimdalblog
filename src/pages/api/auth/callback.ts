@@ -6,6 +6,7 @@ import {
   getAdminConfig,
   getCookieValue,
   getMissingAuthConfig,
+  getOAuthRedirectUri,
   isSecureRequest,
   sessionMaxAge,
   SESSION_COOKIE,
@@ -44,7 +45,7 @@ export const GET: APIRoute = async ({ cookies, request, redirect }) => {
   }
 
   const config = getAdminConfig();
-  const redirectUri = new URL("/api/auth/callback/", request.url).toString();
+  const redirectUri = getOAuthRedirectUri(request);
   const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: {

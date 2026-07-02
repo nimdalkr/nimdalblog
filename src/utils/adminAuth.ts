@@ -28,7 +28,8 @@ export function getAdminConfig() {
     repoName: getEnvValue("GITHUB_REPO_NAME", localEnv) || "nimdalblog",
     repoBranch: getEnvValue("GITHUB_REPO_BRANCH", localEnv) || "main",
     sessionSecret: getEnvValue("ADMIN_SESSION_SECRET", localEnv),
-    oauthScope: getEnvValue("GITHUB_OAUTH_SCOPE", localEnv) || "read:user public_repo"
+    oauthScope: getEnvValue("GITHUB_OAUTH_SCOPE", localEnv) || "read:user public_repo",
+    siteUrl: normalizeSiteUrl(getEnvValue("SITE_URL", localEnv))
   };
 }
 
@@ -110,12 +111,33 @@ export function getCookieValue(request: Request, name: string) {
 }
 
 export function isSecureRequest(request: Request) {
+  const forwardedProto = getFirstHeaderValue(request.headers.get("x-forwarded-proto"));
+  if (forwardedProto) return forwardedProto === "https";
+
   const url = new URL(request.url);
   return url.protocol === "https:";
 }
 
+export function getOAuthRedirectUri(request: Request) {
+  return new URL("/api/auth/callback/", `${getRequestOrigin(request)}/`).toString();
+}
+
 export function sessionMaxAge() {
   return SESSION_TTL_SECONDS;
+}
+
+function getRequestOrigin(request: Request) {
+  const { siteUrl } = getAdminConfig();
+  if (siteUrl) return siteUrl;
+
+  const forwardedHost = getFirstHeaderValue(request.headers.get("x-forwarded-host"));
+  const host = forwardedHost || getFirstHeaderValue(request.headers.get("host"));
+  if (host) {
+    const proto = getFirstHeaderValue(request.headers.get("x-forwarded-proto")) || (isSecureRequest(request) ? "https" : "http");
+    return `${proto}://${host}`;
+  }
+
+  return new URL(request.url).origin;
 }
 
 function getEncryptionKey(secret: string) {
@@ -124,6 +146,14 @@ function getEncryptionKey(secret: string) {
 
 function getEnvValue(key: string, localEnv: Record<string, string>) {
   return process.env[key] ?? localEnv[key] ?? "";
+}
+
+function normalizeSiteUrl(value: string) {
+  return value.trim().replace(/\/+$/, "");
+}
+
+function getFirstHeaderValue(value: string | null) {
+  return value?.split(",")[0]?.trim().toLowerCase() || "";
 }
 
 function loadLocalEnv() {
