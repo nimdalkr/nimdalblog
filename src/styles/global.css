@@ -731,6 +731,25 @@ img {
   text-underline-offset: 4px;
 }
 
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.7rem 0 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #eef8fb;
+  box-shadow: 0 18px 48px rgba(22, 47, 63, 0.12);
+}
+
+.prose p > em:only-child {
+  display: block;
+  margin: 0.3rem 0 1.45rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
 .related {
   position: sticky;
   top: 5.8rem;
