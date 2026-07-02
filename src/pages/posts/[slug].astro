@@ -64,7 +64,7 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       position: 1,
-      name: "blog",
+      name: site.title,
       item: site.url
     },
     {
@@ -99,7 +99,7 @@ const breadcrumbJsonLd = {
   <main class="article-shell">
     <article class="article">
       <header class="article-header">
-        <a class="back-link" href="/">blog</a>
+        <a class="back-link" href="/">nimdalog</a>
         <p class="eyebrow">{post.data.category}</p>
         <h1>{post.data.title}</h1>
         <p>{post.data.description}</p>

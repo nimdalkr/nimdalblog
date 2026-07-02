@@ -1,5 +1,5 @@
 export const site = {
-  title: "blog",
+  title: "nimdalog",
   description:
     "Personal notes by Nimdal / Tak Chanwoo on Web3 research, product systems, campaign operations, automation, and creative building.",
   url: "https://blog.nimdal.xyz",
