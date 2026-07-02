@@ -6,4 +6,5 @@ dist/
 .env.local
 .env.development
 .env.production
+.astro-dev.*.log
 .vercel/
