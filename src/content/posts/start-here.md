@@ -1,24 +1,24 @@
 ---
-title: "nimdal log를 여는 이유"
-description: "개인 블로그를 다시 직접 운영하면서 무엇을 남기고, 어떤 기준으로 기록할지 정리한 첫 글."
-pubDate: 2026-04-20
-tags: ["Meta", "Writing", "Blog"]
+title: "Why this blog exists"
+description: "A short note on why I am keeping a separate personal blog for research, operations, automation, and product thinking."
+publishedAt: 2026-07-02
+category: "note"
+tags: ["nimdal", "identity", "blog"]
+cover: "/media/identity-octopus.jpg"
+coverAlt: "Nimdal pixel octopus NFT identity."
 featured: true
+lang: "en"
 ---
 
-블로그를 다시 열면서 가장 먼저 정한 기준은 간단했다. 나중에 다시 찾아볼 가치가 있는 기록만 남기자는 것이다.
+Portfolio sites are good at showing finished work. They are less useful for showing how the work was found, shaped, tested, and improved.
 
-이 공간은 완성된 주장보다 작업 과정에 가까운 글을 담는다. 구현 중에 판단한 이유, 운영하면서 바뀐 선택, 다음에 다시 같은 문제를 만났을 때 바로 꺼내볼 수 있는 메모가 중심이다.
+This blog is for that slower layer. I want a place to keep field notes on Web3 research, campaign operations, automation workflows, product experiments, and small systems that are easier to understand when written down.
 
-## 이 블로그에 주로 남길 것
+## What belongs here
 
-- 소프트웨어를 만들고 운영하면서 생긴 결정과 변경 이유
-- 자동화, 배포, 문서화처럼 반복 비용을 줄이는 작업
-- 개인 프로젝트를 진행하며 정리한 구조와 시행착오
-- 시간이 지난 뒤에도 다시 참고할 수 있는 기술 메모
+- Research notes that connect markets, products, and user behavior
+- Build logs for tools, automations, and personal projects
+- Campaign operation notes about briefs, execution, reporting, and iteration
+- Product thinking that turns messy information into something usable
 
-## 일부러 단순하게 만든 이유
-
-블로그 자체를 꾸미는 데 시간을 너무 많이 쓰면 정작 글이 늦어진다. 그래서 구조는 단순하게, 글 작성은 빠르게, 수정은 부담 없게 유지하는 쪽으로 정리했다.
-
-브라우저에서 바로 글을 쓰고 저장할 수 있게 만든 것도 같은 이유다. 좋은 글쓰기 시스템은 화려한 도구보다 기록을 계속 남길 수 있게 만드는 흐름에 가깝다고 생각한다.
+The design should stay quiet enough for reading, but still carry the Nimdal identity: a pixel-sea signal, not a heavy theme.

@@ -1,39 +1,73 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import "../styles/global.css";
-import { SITE } from "../config";
+import "@fontsource-variable/geist";
 
-interface Props {
+import Header from "../components/Header.astro";
+import { absoluteUrl, site } from "../config";
+import "../styles/global.css";
+
+type Props = {
   title?: string;
   description?: string;
-}
+  image?: string;
+  imageAlt?: string;
+  canonicalPath?: string;
+  canonicalUrl?: string;
+  ogType?: "website" | "article";
+  lang?: "ko" | "en";
+  noindex?: boolean;
+};
 
 const {
-  title = `${SITE.title} | Personal Blog`,
-  description = SITE.description
+  title = site.title,
+  description = site.description,
+  image = site.image,
+  imageAlt = site.title,
+  canonicalPath = Astro.url.pathname,
+  canonicalUrl,
+  ogType = "website",
+  lang = "en",
+  noindex = false
 } = Astro.props;
+
+const pageTitle = title === site.title ? `${site.title} | Nimdal` : `${title} | ${site.title}`;
+const resolvedCanonicalUrl = canonicalUrl ?? absoluteUrl(canonicalPath);
+const imageUrl = absoluteUrl(image);
+const locale = lang === "ko" ? "ko_KR" : "en_US";
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <meta name="theme-color" content="#f6fafc" />
+    <link rel="canonical" href={resolvedCanonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="blog RSS" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={SITE.siteUrl} />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={resolvedCanonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:locale" content={locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <link rel="icon" href="/favicon.svg" />
   </head>
   <body>
+    <div class="sea-backdrop" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <Header />
-    <main id="content" class="site-main">
-      <slot />
-    </main>
-    <Footer />
+    <slot />
   </body>
 </html>

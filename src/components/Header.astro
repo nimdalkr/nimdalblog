@@ -1,32 +1,18 @@
 ---
-import { SITE } from "../config";
-
-const currentPath = Astro.url.pathname;
+import { site } from "../config";
 ---
 
 <header class="site-header">
-  <a class="brand" href="/" aria-label={`${SITE.title} home`}>
-    <span class="brand-mark">N</span>
+  <a class="brand" href="/" aria-label="blog home">
+    <img src="/media/identity-octopus.jpg" alt="" width="42" height="42" />
     <span>
-      <strong>{SITE.title}</strong>
-      <small>{SITE.author}</small>
+      <strong>blog</strong>
+      <small>Nimdal</small>
     </span>
   </a>
-
-  <nav class="nav-list" aria-label="Primary navigation">
-    {SITE.navigation.map(item => {
-      const isActive =
-        item.href === "/" ? currentPath === "/" : currentPath.startsWith(item.href);
-
-      return (
-        <a
-          class:list={["nav-link", { active: isActive }]}
-          aria-current={isActive ? "page" : undefined}
-          href={item.href}
-        >
-          {item.label}
-        </a>
-      );
-    })}
+  <nav aria-label="Primary navigation">
+    <a href={site.mainUrl}>nimdal.xyz</a>
+    <a href="/posts/">posts</a>
+    <a href="/rss.xml">rss</a>
   </nav>
 </header>

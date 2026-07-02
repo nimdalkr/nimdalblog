@@ -4,6 +4,11 @@ import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   site: "https://blog.nimdal.xyz",
-  integrations: [sitemap()],
-  adapter: vercel()
+  adapter: vercel(),
+  trailingSlash: "always",
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes("/tags/")
+    })
+  ]
 });

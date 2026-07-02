@@ -1,30 +1,32 @@
 ---
-interface Props {
-  href: string;
-  title: string;
-  description: string;
-  pubDate: Date;
-  tags: string[];
-}
+import type { Post } from "../utils/posts";
+import { estimateReadingTime, formatDate, getPostPath, tagToSlug } from "../utils/posts";
 
-const { href, title, description, pubDate, tags } = Astro.props;
+type Props = {
+  post: Post;
+  featured?: boolean;
+};
 
-const formattedDate = new Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "short",
-  day: "numeric"
-}).format(pubDate);
+const { post, featured = false } = Astro.props;
+const readingTime = estimateReadingTime(post.body ?? "");
+const cover = post.data.cover ?? "/media/identity-octopus.jpg";
+const coverAlt = post.data.coverAlt ?? "";
 ---
 
-<article class="post-card">
-  <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-  <h3>
-    <a class="post-link" href={href}>{title}</a>
-  </h3>
-  <p class="post-description">{description}</p>
-  {tags.length ? (
-    <ul class="tag-list" aria-label="Tags">
-      {tags.map(tag => <li>{tag}</li>)}
-    </ul>
-  ) : null}
+<article class:list={["post-card", { "is-featured": featured }]}>
+  <a class="post-card-media" href={getPostPath(post)} aria-label={`Read ${post.data.title}`}>
+    <img src={cover} alt={coverAlt} loading={featured ? "eager" : "lazy"} />
+  </a>
+  <div class="post-card-body">
+    <div class="post-meta">
+      <span>{post.data.category}</span>
+      <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+      <span>{readingTime}</span>
+    </div>
+    <h2><a href={getPostPath(post)}>{post.data.title}</a></h2>
+    <p>{post.data.description}</p>
+    <div class="post-tags" aria-label={`${post.data.title} tags`}>
+      {post.data.tags.map((tag) => <a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a>)}
+    </div>
+  </div>
 </article>

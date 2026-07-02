@@ -1,44 +1,131 @@
 ---
 import { getCollection, render } from "astro:content";
+
+import PostCard from "../../components/PostCard.astro";
+import { absoluteUrl, site } from "../../config";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { SITE } from "../../config";
+import {
+  estimateReadingTime,
+  formatDate,
+  getPostPath,
+  getPublishedPosts,
+  getRelatedPosts,
+  tagToSlug
+} from "../../utils/posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = getPublishedPosts(await getCollection("posts"));
 
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post }
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, posts }
   }));
 }
 
-const { post } = Astro.props;
+const { post, posts } = Astro.props;
 const { Content } = await render(post);
-
-const formattedDate = new Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "long",
-  day: "numeric"
-}).format(post.data.pubDate);
+const related = getRelatedPosts(posts, post);
+const readingTime = estimateReadingTime(post.body ?? "");
+const canonicalPath = getPostPath(post);
+const cover = post.data.cover ?? "/media/identity-octopus.jpg";
+const coverAlt = post.data.coverAlt ?? "";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  image: absoluteUrl(cover),
+  url: post.data.canonicalUrl ?? absoluteUrl(canonicalPath),
+  datePublished: post.data.publishedAt.toISOString(),
+  dateModified: (post.data.updatedAt ?? post.data.publishedAt).toISOString(),
+  keywords: post.data.tags,
+  inLanguage: post.data.lang,
+  author: {
+    "@type": "Person",
+    name: site.author,
+    url: site.mainUrl
+  },
+  publisher: {
+    "@type": "Person",
+    name: site.author,
+    url: site.mainUrl
+  },
+  isPartOf: {
+    "@type": "Blog",
+    name: site.title,
+    url: site.url
+  },
+  mainEntityOfPage: post.data.canonicalUrl ?? absoluteUrl(canonicalPath)
+};
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "blog",
+      item: site.url
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "posts",
+      item: absoluteUrl("/posts/")
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: post.data.title,
+      item: post.data.canonicalUrl ?? absoluteUrl(canonicalPath)
+    }
+  ]
+};
 ---
 
 <BaseLayout
-  title={`${post.data.title} | ${SITE.title}`}
+  title={post.data.title}
   description={post.data.description}
+  image={cover}
+  imageAlt={coverAlt}
+  canonicalPath={canonicalPath}
+  canonicalUrl={post.data.canonicalUrl}
+  ogType="article"
+  lang={post.data.lang}
+  noindex={post.data.noindex}
 >
-  <article class="post-page">
-    <a class="back-link" href="/posts">&lt;- back to posts</a>
-    <header>
-      <p class="post-meta">{formattedDate}</p>
-      <h1>{post.data.title}</h1>
-      <p class="page-intro">{post.data.description}</p>
-      <ul class="tag-list">
-        {post.data.tags.map((tag: string) => <li>{tag}</li>)}
-      </ul>
-    </header>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <main class="article-shell">
+    <article class="article">
+      <header class="article-header">
+        <a class="back-link" href="/">blog</a>
+        <p class="eyebrow">{post.data.category}</p>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.description}</p>
+        <div class="post-meta">
+          <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+          <span>{readingTime}</span>
+        </div>
+        <div class="post-tags" aria-label="Post tags">
+          {post.data.tags.map((tag) => <a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a>)}
+        </div>
+      </header>
 
-    <div class="prose">
-      <Content />
-    </div>
-  </article>
+      <figure class="article-cover">
+        <img src={cover} alt={coverAlt} />
+      </figure>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+
+    {related.length > 0 && (
+      <aside class="related" aria-label="Related posts">
+        <p class="eyebrow">more</p>
+        {related.map((item) => <PostCard post={item} />)}
+      </aside>
+    )}
+  </main>
 </BaseLayout>

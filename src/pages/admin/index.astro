@@ -1,412 +1,351 @@
 ---
-const title = "nimdal control plane";
-const asciiLogo = ` _   _ ___ __  __ ____    _    _     
-| \\ | |_ _|  \\/  |  _ \\  / \\  | |    
-|  \\| || || |\\/| | | | |/ _ \\ | |    
-| |\\  || || |  | | |_| / ___ \\| |___ 
-|_| \\_|___|_|  |_|____/_/   \\_\\_____|`;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { POST_CATEGORIES } from "../../utils/postMarkdown";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
-    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
-    <title>{title}</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        --font-primary: "Geist Variable", "Geist Mono", "Courier New", monospace;
-        --bg: #0f1210;
-        --surface: #161a15;
-        --fg: #d4d8d0;
-        --dim: #5a6058;
-        --accent: #4ade80;
-        --accent-border: #2a5c38;
-        --orange: #e8854a;
-        --border: #2a2e28;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background: var(--bg);
-        color: var(--fg);
-        font-family: var(--font-primary);
-      }
-
-      body::before,
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-      }
-
-      body::before {
-        z-index: 2;
-        opacity: 0.05;
-        background: repeating-linear-gradient(
-          to bottom,
-          rgba(212, 216, 208, 1) 0,
-          rgba(212, 216, 208, 1) 1px,
-          transparent 1px,
-          transparent 4px
-        );
-      }
-
-      body::after {
-        z-index: 1;
-        background: radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.44) 100%);
-      }
-
-      .admin-page-shell {
-        position: relative;
-        z-index: 3;
-        min-height: 100vh;
-        padding: 20px 24px;
-      }
-
-      .admin-terminal {
-        width: min(100%, 1240px);
-        min-height: calc(100vh - 40px);
-        margin: 0 auto;
-        border: 1px solid var(--border);
-        background: rgba(15, 18, 16, 0.92);
-      }
-
-      .admin-runtime {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 24px;
-        padding: 16px 24px 10px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .admin-grid {
-        display: grid;
-        gap: 2px;
-      }
-
-      .admin-grid-right {
-        justify-items: end;
-      }
-
-      .admin-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-height: 22px;
-      }
-
-      .admin-row-right {
-        justify-content: flex-end;
-      }
-
-      .admin-label {
-        min-width: 76px;
-        color: var(--dim);
-      }
-
-      .admin-value {
-        color: var(--fg);
-      }
-
-      .admin-value.is-accent {
-        color: var(--accent);
-      }
-
-      .admin-main {
-        display: grid;
-        grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
-        gap: 24px;
-        padding: 18px 24px 24px;
-      }
-
-      .admin-intro,
-      .admin-root {
-        min-height: 0;
-        border: 1px solid var(--border);
-        background: rgba(22, 26, 21, 0.78);
-      }
-
-      .admin-intro {
-        display: grid;
-        align-content: start;
-        gap: 14px;
-        padding: 18px;
-      }
-
-      .admin-root {
-        overflow: hidden;
-      }
-
-      #nc-root {
-        min-height: 100%;
-      }
-
-      .admin-prompt,
-      .admin-copy,
-      .admin-note,
-      .admin-list {
-        margin: 0;
-      }
-
-      .admin-prompt {
-        color: var(--accent);
-      }
-
-      .admin-note {
-        color: var(--dim);
-      }
-
-      .admin-login-button,
-      .admin-empty-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        padding: 0 16px;
-        border: 1px solid var(--accent-border);
-        background: rgba(74, 222, 128, 0.08);
-        color: var(--fg);
-        font: inherit;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      .admin-login-button:hover,
-      .admin-empty-button:hover {
-        background: rgba(74, 222, 128, 0.14);
-      }
-
-      .admin-login-button:focus-visible,
-      .admin-empty-button:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-
-      .admin-status {
-        color: var(--dim);
-      }
-
-      .admin-list {
-        padding-left: 18px;
-      }
-
-      .admin-list li + li {
-        margin-top: 8px;
-      }
-
-      .admin-ascii {
-        margin: 0;
-        color: var(--fg);
-        font-size: 10px;
-        line-height: 1.14;
-        white-space: pre;
-      }
-
-      .admin-empty-state {
-        display: grid;
-        place-items: center;
-        min-height: 100%;
-        padding: 24px;
-      }
-
-      .admin-empty-card {
-        display: grid;
-        gap: 12px;
-        width: min(100%, 420px);
-        padding: 20px;
-        border: 1px solid var(--border);
-        background: rgba(15, 18, 16, 0.88);
-      }
-
-      .admin-empty-card h2,
-      .admin-empty-card p {
-        margin: 0;
-      }
-
-      .admin-empty-card p {
-        color: var(--dim);
-      }
-
-      .admin-empty-state.is-hidden {
-        display: none;
-      }
-
-      @media (max-width: 900px) {
-        .admin-runtime,
-        .admin-main {
-          grid-template-columns: 1fr;
-        }
-
-        .admin-grid-right {
-          justify-items: start;
-        }
-
-        .admin-row-right {
-          justify-content: flex-start;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="admin-page-shell">
-      <div class="admin-terminal">
-        <header class="admin-runtime">
-          <div class="admin-grid">
-            <div class="admin-row">
-              <span class="admin-label">SYS.NAME</span>
-              <span class="admin-value">NIMDAL_CMS</span>
-            </div>
-            <div class="admin-row">
-              <span class="admin-label">SYS.AUTH</span>
-              <span class="admin-value is-accent">GITHUB_OAUTH</span>
-            </div>
-            <div class="admin-row">
-              <span class="admin-label">SYS.NODE</span>
-              <span class="admin-value">blog.nimdal.xyz/admin</span>
-            </div>
-          </div>
-          <div class="admin-grid admin-grid-right">
-            <div class="admin-row admin-row-right">
-              <span class="admin-label">MODE</span>
-              <span class="admin-value">EDITORIAL_FLOW</span>
-            </div>
-            <div class="admin-row admin-row-right">
-              <span class="admin-label">TARGET</span>
-              <span class="admin-value">src/content/posts</span>
-            </div>
-            <div class="admin-row admin-row-right">
-              <span class="admin-label">STATE</span>
-              <span class="admin-value is-accent">READY_FOR_LOGIN</span>
-            </div>
-          </div>
-        </header>
-
-        <main class="admin-main">
-          <aside class="admin-intro">
-            <pre class="admin-ascii">{asciiLogo}</pre>
-            <p class="admin-prompt">$ auth/login --provider github</p>
-            <p class="admin-copy">
-              Editorial control plane for writing, media uploads, and publishing new markdown
-              posts without touching the CLI.
-            </p>
-            <button class="admin-login-button" type="button" data-login-trigger>
-              Login with GitHub
-            </button>
-            <p class="admin-status" data-login-status>Waiting for login.</p>
-            <p class="admin-note">
-              After authentication, content is committed directly into the repository through the
-              configured GitHub backend.
-            </p>
-            <ul class="admin-list">
-              <li>create and edit posts from the browser</li>
-              <li>upload images to `public/uploads`</li>
-              <li>save drafts and publish through git commits</li>
-            </ul>
-          </aside>
-
-          <section class="admin-root">
-            <div class="admin-empty-state" data-empty-state>
-              <div class="admin-empty-card">
-                <h2>GitHub login required</h2>
-                <p>
-                  Click the button below if the Decap login screen does not appear automatically.
-                </p>
-                <button class="admin-empty-button" type="button" data-login-trigger>
-                  Open GitHub login
-                </button>
-              </div>
-            </div>
-            <div id="nc-root"></div>
-          </section>
-        </main>
+<BaseLayout title="admin" description="Nimdal blog editor." canonicalPath="/admin/" noindex>
+  <main class="admin-shell">
+    <section class="admin-panel admin-gate" id="admin-gate">
+      <div>
+        <p class="eyebrow">admin</p>
+        <h1>Write blog posts</h1>
+        <p id="auth-copy">Sign in with the approved GitHub account to publish posts.</p>
       </div>
-    </div>
+      <a class="admin-button" id="login-link" href="/api/auth/login/">Sign in with GitHub</a>
+    </section>
 
-    <script is:inline>
-      window.CMS_MANUAL_INIT = true;
-    </script>
-    <script src="https://unpkg.com/decap-cms@^3.10.0/dist/decap-cms.js"></script>
-    <script is:inline>
-      const loginStatus = document.querySelector("[data-login-status]");
-      const emptyState = document.querySelector("[data-empty-state]");
-      const root = document.getElementById("nc-root");
-      const authUrl = "/auth?provider=github";
+    <section class="admin-panel admin-workspace" id="admin-workspace" hidden>
+      <div class="admin-toolbar">
+        <div>
+          <p class="eyebrow">editor</p>
+          <h1>blog admin</h1>
+          <p id="admin-user"></p>
+        </div>
+        <div class="admin-actions">
+          <button class="admin-button admin-button-ghost" id="new-post" type="button">New</button>
+          <button class="admin-button admin-button-ghost" id="logout" type="button">Logout</button>
+        </div>
+      </div>
 
-      function setStatus(message) {
-        if (loginStatus) loginStatus.textContent = message;
-      }
+      <div class="admin-grid">
+        <aside class="admin-list">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">repository</p>
+              <h2>Posts</h2>
+            </div>
+          </div>
+          <div id="post-list" class="post-list"></div>
+        </aside>
 
-      function updateEmptyState() {
-        if (!emptyState || !root) return;
-        const hasContent = root.childElementCount > 0;
-        emptyState.classList.toggle("is-hidden", hasContent);
-      }
+        <form class="admin-editor" id="post-form">
+          <input id="sha" name="sha" type="hidden" />
+          <div class="field-grid">
+            <label>
+              <span>Slug</span>
+              <input id="slug" name="slug" autocomplete="off" placeholder="my-post-slug" />
+            </label>
+            <label>
+              <span>Published</span>
+              <input id="publishedAt" name="publishedAt" type="date" required />
+            </label>
+          </div>
 
-      function openLoginPopup() {
-        setStatus("Opening GitHub login...");
+          <label>
+            <span>Title</span>
+            <input id="title" name="title" required placeholder="Post title" />
+          </label>
 
-        const popup = window.open(
-          authUrl,
-          "decap-auth",
-          "popup=yes,width=960,height=720,left=120,top=80"
-        );
+          <label>
+            <span>Description</span>
+            <textarea id="description" name="description" rows="3" required placeholder="Short search/social summary"></textarea>
+          </label>
 
-        if (!popup) {
-          setStatus("Popup blocked. Redirecting to GitHub login...");
-          window.location.assign(authUrl);
-        }
-      }
+          <div class="field-grid">
+            <label>
+              <span>Category</span>
+              <select id="category" name="category">
+                {POST_CATEGORIES.map((category) => <option value={category}>{category}</option>)}
+              </select>
+            </label>
+            <label>
+              <span>Language</span>
+              <select id="lang" name="lang">
+                <option value="en">en</option>
+                <option value="ko">ko</option>
+              </select>
+            </label>
+          </div>
 
-      document.querySelectorAll("[data-login-trigger]").forEach(button => {
-        button.addEventListener("click", openLoginPopup);
-      });
+          <label>
+            <span>Tags</span>
+            <input id="tags" name="tags" placeholder="web3, product, research" />
+          </label>
 
-      window.addEventListener("message", event => {
-        if (typeof event.data !== "string") return;
-        if (event.data.startsWith("authorization:github:success:")) {
-          setStatus("GitHub authentication completed. Loading editor...");
-          window.setTimeout(() => window.location.reload(), 400);
-          return;
-        }
+          <div class="field-grid">
+            <label>
+              <span>Cover</span>
+              <input id="cover" name="cover" placeholder="/media/identity-octopus.jpg" />
+            </label>
+            <label>
+              <span>Cover alt</span>
+              <input id="coverAlt" name="coverAlt" placeholder="Image description" />
+            </label>
+          </div>
 
-        if (event.data.startsWith("authorization:github:error:")) {
-          try {
-            const payload = JSON.parse(event.data.split("authorization:github:error:")[1]);
-            setStatus(payload.message || "GitHub authentication failed.");
-          } catch {
-            setStatus("GitHub authentication failed.");
-          }
-        }
-      });
+          <div class="check-row">
+            <label>
+              <input id="featured" name="featured" type="checkbox" />
+              <span>Featured</span>
+            </label>
+            <label>
+              <input id="draft" name="draft" type="checkbox" />
+              <span>Draft</span>
+            </label>
+          </div>
 
-      if (window.CMS) {
-        window.CMS.init({
-          config: {
-            load_config_file: true
-          }
-        });
-      } else {
-        setStatus("Decap CMS script failed to load.");
-      }
+          <label>
+            <span>Body</span>
+            <textarea id="body" name="body" class="markdown-body-input" required placeholder="Write Markdown here..."></textarea>
+          </label>
 
-      updateEmptyState();
+          <div class="admin-editor-actions">
+            <button class="admin-button" type="submit">Save post</button>
+            <button class="admin-button admin-button-danger" id="delete-post" type="button">Delete</button>
+            <p id="save-status" role="status"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
 
-      if (root) {
-        const observer = new MutationObserver(updateEmptyState);
-        observer.observe(root, { childList: true, subtree: true });
-      }
+<script>
+  const state = {
+    posts: [],
+    slugTouched: false
+  };
 
-      window.setTimeout(updateEmptyState, 1200);
-    </script>
-  </body>
-</html>
+  const elements = {
+    gate: document.querySelector("#admin-gate"),
+    workspace: document.querySelector("#admin-workspace"),
+    authCopy: document.querySelector("#auth-copy"),
+    loginLink: document.querySelector("#login-link"),
+    user: document.querySelector("#admin-user"),
+    list: document.querySelector("#post-list"),
+    form: document.querySelector("#post-form"),
+    status: document.querySelector("#save-status"),
+    logout: document.querySelector("#logout"),
+    newPost: document.querySelector("#new-post"),
+    deletePost: document.querySelector("#delete-post")
+  };
+
+  const fields = {
+    sha: document.querySelector("#sha"),
+    slug: document.querySelector("#slug"),
+    title: document.querySelector("#title"),
+    description: document.querySelector("#description"),
+    publishedAt: document.querySelector("#publishedAt"),
+    category: document.querySelector("#category"),
+    lang: document.querySelector("#lang"),
+    tags: document.querySelector("#tags"),
+    cover: document.querySelector("#cover"),
+    coverAlt: document.querySelector("#coverAlt"),
+    featured: document.querySelector("#featured"),
+    draft: document.querySelector("#draft"),
+    body: document.querySelector("#body")
+  };
+
+  init();
+
+  elements.form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await savePost();
+  });
+
+  elements.newPost?.addEventListener("click", () => {
+    resetForm();
+  });
+
+  elements.deletePost?.addEventListener("click", async () => {
+    const slug = fields.slug.value.trim();
+    if (!slug || !confirm(`Delete ${slug}?`)) return;
+
+    setStatus("Deleting...");
+    await api(`/api/admin/posts/?slug=${encodeURIComponent(slug)}`, { method: "DELETE" });
+    resetForm();
+    await loadPosts();
+    setStatus("Deleted.");
+  });
+
+  elements.logout?.addEventListener("click", async () => {
+    await fetch("/api/auth/logout/", { method: "POST" });
+    window.location.href = "/admin/";
+  });
+
+  fields.slug?.addEventListener("input", () => {
+    state.slugTouched = true;
+  });
+
+  fields.title?.addEventListener("input", () => {
+    if (!state.slugTouched) {
+      fields.slug.value = slugify(fields.title.value);
+    }
+  });
+
+  async function init() {
+    resetForm();
+    const response = await fetch("/api/auth/me/");
+    const data = await response.json();
+
+    if (!data.configured) {
+      elements.authCopy.textContent = `Missing Vercel environment variables: ${data.missing.join(", ")}`;
+      elements.loginLink.hidden = true;
+      return;
+    }
+
+    if (!data.authenticated) {
+      elements.authCopy.textContent = "Only the approved GitHub account can publish posts.";
+      return;
+    }
+
+    elements.gate.hidden = true;
+    elements.workspace.hidden = false;
+    elements.user.textContent = `Signed in as ${data.user.login}`;
+    await loadPosts();
+  }
+
+  async function loadPosts() {
+    elements.list.innerHTML = "<p class=\"muted-note\">Loading...</p>";
+    const data = await api("/api/admin/posts/");
+    state.posts = data.posts;
+    elements.list.innerHTML = "";
+
+    if (state.posts.length === 0) {
+      elements.list.innerHTML = "<p class=\"muted-note\">No posts yet.</p>";
+      return;
+    }
+
+    for (const post of state.posts) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "post-list-item";
+      button.dataset.slug = post.slug;
+      button.innerHTML = `
+        <strong>${escapeHtml(post.title || post.slug)}</strong>
+        <span>${escapeHtml(post.slug)} · ${escapeHtml(post.category)}${post.draft ? " · draft" : ""}</span>
+      `;
+      button.addEventListener("click", () => loadPost(post.slug));
+      elements.list.append(button);
+    }
+  }
+
+  async function loadPost(slug) {
+    setStatus("Loading...");
+    const data = await api(`/api/admin/posts/?slug=${encodeURIComponent(slug)}`);
+    fillForm(data.post);
+    setStatus("Loaded.");
+  }
+
+  async function savePost() {
+    const post = collectForm();
+    setStatus("Saving...");
+    const data = await api("/api/admin/posts/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(post)
+    });
+
+    fillForm(data.post);
+    await loadPosts();
+    setStatus(data.commit ? `Saved. Commit: ${data.commit}` : "Saved.");
+  }
+
+  function resetForm() {
+    state.slugTouched = false;
+    fields.sha.value = "";
+    fields.slug.value = "";
+    fields.title.value = "";
+    fields.description.value = "";
+    fields.publishedAt.value = new Date().toISOString().slice(0, 10);
+    fields.category.value = "note";
+    fields.lang.value = "en";
+    fields.tags.value = "";
+    fields.cover.value = "/media/identity-octopus.jpg";
+    fields.coverAlt.value = "Nimdal pixel octopus identity.";
+    fields.featured.checked = false;
+    fields.draft.checked = false;
+    fields.body.value = "Start writing here.\n\n## Section\n\n";
+    setStatus("");
+  }
+
+  function fillForm(post) {
+    state.slugTouched = true;
+    fields.sha.value = post.sha || "";
+    fields.slug.value = post.slug || "";
+    fields.title.value = post.title || "";
+    fields.description.value = post.description || "";
+    fields.publishedAt.value = post.publishedAt || new Date().toISOString().slice(0, 10);
+    fields.category.value = post.category || "note";
+    fields.lang.value = post.lang || "en";
+    fields.tags.value = Array.isArray(post.tags) ? post.tags.join(", ") : "";
+    fields.cover.value = post.cover || "/media/identity-octopus.jpg";
+    fields.coverAlt.value = post.coverAlt || "";
+    fields.featured.checked = Boolean(post.featured);
+    fields.draft.checked = Boolean(post.draft);
+    fields.body.value = post.body || "";
+  }
+
+  function collectForm() {
+    return {
+      sha: fields.sha.value,
+      slug: fields.slug.value,
+      title: fields.title.value,
+      description: fields.description.value,
+      publishedAt: fields.publishedAt.value,
+      category: fields.category.value,
+      lang: fields.lang.value,
+      tags: fields.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean),
+      cover: fields.cover.value,
+      coverAlt: fields.coverAlt.value,
+      featured: fields.featured.checked,
+      draft: fields.draft.checked,
+      body: fields.body.value
+    };
+  }
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, options);
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.message || data.error || "Request failed.");
+    }
+
+    return data;
+  }
+
+  function setStatus(message) {
+    elements.status.textContent = message;
+  }
+
+  function slugify(value) {
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+</script>

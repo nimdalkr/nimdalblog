@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+
+import PostCard from "../../components/PostCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPostsByTag, getPublishedPosts, getTags } from "../../utils/posts";
+
+export async function getStaticPaths() {
+  const posts = getPublishedPosts(await getCollection("posts"));
+
+  return getTags(posts).map((tag) => ({
+    params: { tag: tag.slug },
+    props: {
+      tag,
+      posts: getPostsByTag(posts, tag.slug)
+    }
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`${tag.label} posts`}
+  description={`Posts filed under ${tag.label} on Nimdal's personal blog.`}
+  canonicalPath={`/tags/${tag.slug}/`}
+  noindex
+>
+  <main class="archive-shell">
+    <section class="archive-heading">
+      <p class="eyebrow">tag</p>
+      <h1>{tag.label}</h1>
+      <p>{tag.count} note{tag.count === 1 ? "" : "s"} connected to this tag.</p>
+    </section>
+    <section class="post-grid" aria-label={`${tag.label} posts`}>
+      {posts.map((post) => <PostCard post={post} />)}
+    </section>
+  </main>
+</BaseLayout>

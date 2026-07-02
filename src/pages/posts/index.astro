@@ -1,33 +1,22 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PostCard from "../../components/PostCard.astro";
-import { SITE } from "../../config";
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import PostCard from "../../components/PostCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedPosts } from "../../utils/posts";
+
+const posts = getPublishedPosts(await getCollection("posts"));
 ---
 
-<BaseLayout title={`Posts | ${SITE.title}`} description="All posts">
-  <section class="page-stack">
-    <div class="page-header">
-    <h1>All posts</h1>
-    <p class="page-intro">
-      개인 작업 기록, 자동화 실험, 제품과 커뮤니티 운영에서 배운 내용을 모읍니다.
-    </p>
-    </div>
-
-    <div class="post-grid">
-      {posts.map(post => (
-        <PostCard
-          href={`/posts/${post.slug}/`}
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          tags={post.data.tags}
-        />
-      ))}
-    </div>
-  </section>
+<BaseLayout title="posts" description="Every public note from Nimdal's personal blog, sorted from newest to oldest." canonicalPath="/posts/">
+  <main class="archive-shell">
+    <section class="archive-heading">
+      <p class="eyebrow">archive</p>
+      <h1>posts</h1>
+      <p>Every public note from Nimdal's personal blog, sorted from newest to oldest.</p>
+    </section>
+    <section class="post-grid" aria-label="All posts">
+      {posts.map((post) => <PostCard post={post} />)}
+    </section>
+  </main>
 </BaseLayout>
