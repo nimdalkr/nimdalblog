@@ -9,6 +9,11 @@ coverAlt: "Renewed nimdal.xyz homepage showing Tak Chanwoo and Nimdal pixel octo
 featured: false
 draft: false
 lang: "ko"
+series: "ops-manual"
+relatedProject: "nimdalxyz"
+proofLevel: "live-link"
+heroLabel: "Site Ops / Editorial System"
+summaryBullets: ["포트폴리오와 블로그의 역할을 분리했어요.", "nimdal.xyz는 결과를 보여주고, nimdalog는 과정과 판단을 남기는 구조로 잡았어요.", "앞으로 포트폴리오와 글이 서로 증거처럼 연결되도록 다듬을 예정이에요."]
 ---
 
 2026년 7월 2일에는 `nimdal.xyz`와 `blog.nimdal.xyz`를 함께 정리했어요. `nimdal.xyz`는 나를 소개하는 포트폴리오 허브로 두고, 블로그는 `nimdalog`라는 이름의 기록 공간으로 분리했어요.

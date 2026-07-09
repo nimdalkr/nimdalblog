@@ -13,12 +13,15 @@ export function getPostPath(post: Post) {
 }
 
 export function tagToSlug(tag: string) {
-  return tag
+  const normalized = tag
     .trim()
-    .toLowerCase()
+    .toLowerCase();
+  const latinSlug = normalized
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+
+  return latinSlug || encodeURIComponent(normalized);
 }
 
 export function getTags(posts: Post[]) {
@@ -66,15 +69,22 @@ export function getRelatedPosts(posts: Post[], currentPost: Post, limit = 2) {
     .map((item) => item.post);
 }
 
-export function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+export function formatDate(date: Date, lang: "ko" | "en" = "en") {
+  return new Intl.DateTimeFormat(lang === "ko" ? "ko-KR" : "en-US", {
     year: "numeric",
     month: "short",
     day: "numeric"
   }).format(date);
 }
 
-export function estimateReadingTime(body: string) {
+export function estimateReadingTime(body: string, lang: "ko" | "en" = "en") {
+  if (lang === "ko") {
+    const visibleChars = body.replace(/\s+/g, "").length;
+    const minutes = Math.max(1, Math.ceil(visibleChars / 900));
+
+    return `${minutes} min`;
+  }
+
   const words = body.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.ceil(words / 260));
 

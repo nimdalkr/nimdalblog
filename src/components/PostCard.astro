@@ -8,23 +8,31 @@ type Props = {
 };
 
 const { post, featured = false } = Astro.props;
-const readingTime = estimateReadingTime(post.body ?? "");
+const readingTime = estimateReadingTime(post.body ?? "", post.data.lang);
 const cover = post.data.cover ?? "/media/identity-octopus.jpg";
 const coverAlt = post.data.coverAlt ?? "";
+const proofLabel = post.data.proofLevel && post.data.proofLevel !== "none" ? post.data.proofLevel : null;
 ---
 
-<article class:list={["post-card", { "is-featured": featured }]}>
+<article class:list={["post-card", { "is-featured": featured }]} data-series={post.data.series}>
   <a class="post-card-media" href={getPostPath(post)} aria-label={`Read ${post.data.title}`}>
     <img src={cover} alt={coverAlt} loading={featured ? "eager" : "lazy"} />
   </a>
   <div class="post-card-body">
     <div class="post-meta">
-      <span>{post.data.category}</span>
-      <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+      <span>{post.data.series ?? post.data.category}</span>
+      <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt, post.data.lang)}</time>
       <span>{readingTime}</span>
     </div>
+    {(proofLabel || post.data.relatedProject) && (
+      <div class="post-proof-row" aria-label={`${post.data.title} proof metadata`}>
+        {proofLabel && <span>{proofLabel}</span>}
+        {post.data.relatedProject && <span>{post.data.relatedProject}</span>}
+      </div>
+    )}
     <h2><a href={getPostPath(post)}>{post.data.title}</a></h2>
     <p>{post.data.description}</p>
+    {post.data.summaryBullets.length > 0 && <p class="post-card-signal">{post.data.summaryBullets[0]}</p>}
     <div class="post-tags" aria-label={`${post.data.title} tags`}>
       {post.data.tags.map((tag) => <a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a>)}
     </div>

@@ -26,7 +26,7 @@ const { tag, posts } = Astro.props;
   canonicalPath={`/tags/${tag.slug}/`}
   noindex
 >
-  <main class="archive-shell">
+  <main class="archive-shell" id="main-content">
     <section class="archive-heading">
       <p class="eyebrow">tag</p>
       <h1>{tag.label}</h1>

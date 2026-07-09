@@ -9,6 +9,11 @@ coverAlt: "maple uNion hunting field with skill effects, hunt tempo controls, gu
 featured: true
 draft: false
 lang: "ko"
+series: "build-log"
+relatedProject: "maple-union"
+proofLevel: "screenshots"
+heroLabel: "Build Log / Game Utility"
+summaryBullets: ["게임 시스템 문제를 작은 유틸리티 제품으로 정리했어요.", "사냥, 장비, 강화, 유니온 루프를 하나의 흐름으로 연결했어요.", "다음 단계는 사용 지표, 전투 연출, 모바일 메뉴 흐름을 더 다듬는 일이에요."]
 ---
 
 maple uNion은 MapleStoryUniverse 리소스를 활용한 유니온 중심 방치형 RPG 프로토타입이에요. 목표는 단순히 메이플풍 UI를 흉내 내는 게 아니었어요. 캐릭터를 만들고, 자동 사냥을 돌리고, 장비를 줍고, 강화하고, 여러 캐릭터를 키우며 계정 전체가 조금씩 강해지는 흐름을 만드는 쪽에 가까웠어요.

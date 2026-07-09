@@ -44,13 +44,16 @@ export const GET: APIRoute = async ({ request }) => {
       if (!item.ok) {
         return {
           slug: file.name.replace(/\.md$/, ""),
-          title: file.name,
-          description: "",
-          publishedAt: "",
-          category: "note",
-          draft: true,
-          featured: false,
-          sha: file.sha
+        title: file.name,
+        description: "",
+        publishedAt: "",
+        category: "note",
+        series: "",
+        proofLevel: "none",
+        relatedProject: "",
+        draft: true,
+        featured: false,
+        sha: file.sha
         };
       }
 
@@ -62,6 +65,9 @@ export const GET: APIRoute = async ({ request }) => {
         description: post.description,
         publishedAt: post.publishedAt,
         category: post.category,
+        series: post.series,
+        proofLevel: post.proofLevel,
+        relatedProject: post.relatedProject,
         draft: post.draft,
         featured: post.featured,
         sha: post.sha

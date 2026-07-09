@@ -17,7 +17,12 @@ const posts = defineCollection({
     featured: z.boolean().default(false),
     lang: z.enum(["ko", "en"]).default("ko"),
     canonicalUrl: z.string().url().optional(),
-    noindex: z.boolean().default(false)
+    noindex: z.boolean().default(false),
+    series: z.enum(["build-log", "research-note", "ops-manual", "game-system"]).optional(),
+    relatedProject: z.string().optional(),
+    proofLevel: z.enum(["none", "screenshots", "live-link", "internal", "claimed"]).default("none"),
+    summaryBullets: z.array(z.string()).default([]),
+    heroLabel: z.string().optional()
   })
 });
 

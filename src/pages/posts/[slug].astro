@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 
 import PostCard from "../../components/PostCard.astro";
-import { absoluteUrl, site } from "../../config";
+import { absoluteUrl, projectLinks, site } from "../../config";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   estimateReadingTime,
@@ -23,12 +23,16 @@ export async function getStaticPaths() {
 }
 
 const { post, posts } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const related = getRelatedPosts(posts, post);
-const readingTime = estimateReadingTime(post.body ?? "");
+const readingTime = estimateReadingTime(post.body ?? "", post.data.lang);
 const canonicalPath = getPostPath(post);
 const cover = post.data.cover ?? "/media/identity-octopus.jpg";
 const coverAlt = post.data.coverAlt ?? "";
+const project = post.data.relatedProject
+  ? projectLinks[post.data.relatedProject as keyof typeof projectLinks]
+  : undefined;
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -96,16 +100,17 @@ const breadcrumbJsonLd = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
-  <main class="article-shell">
+  <main class="article-shell" id="main-content">
     <article class="article">
       <header class="article-header">
         <a class="back-link" href="/">nimdalog</a>
-        <p class="eyebrow">{post.data.category}</p>
+        <p class="eyebrow">{post.data.heroLabel ?? post.data.series ?? post.data.category}</p>
         <h1>{post.data.title}</h1>
         <p>{post.data.description}</p>
         <div class="post-meta">
-          <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
+          <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt, post.data.lang)}</time>
           <span>{readingTime}</span>
+          <span>{post.data.proofLevel}</span>
         </div>
         <div class="post-tags" aria-label="Post tags">
           {post.data.tags.map((tag) => <a href={`/tags/${tagToSlug(tag)}/`}>{tag}</a>)}
@@ -115,6 +120,33 @@ const breadcrumbJsonLd = {
       <figure class="article-cover">
         <img src={cover} alt={coverAlt} />
       </figure>
+
+      {(post.data.summaryBullets.length > 0 || toc.length > 0 || project) && (
+        <aside class="article-brief" aria-label="Article brief">
+          {post.data.summaryBullets.length > 0 && (
+            <section>
+              <h2>Field summary</h2>
+              <ul>
+                {post.data.summaryBullets.map((item) => <li>{item}</li>)}
+              </ul>
+            </section>
+          )}
+          {toc.length > 0 && (
+            <section>
+              <h2>Contents</h2>
+              <nav aria-label="Article table of contents">
+                {toc.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}
+              </nav>
+            </section>
+          )}
+          {project && (
+            <section class="project-bridge">
+              <h2>Related project</h2>
+              <a href={project.href}>{project.label}</a>
+            </section>
+          )}
+        </aside>
+      )}
 
       <div class="prose">
         <Content />

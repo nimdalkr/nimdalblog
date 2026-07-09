@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { POST_CATEGORIES } from "../../utils/postMarkdown";
+import { POST_CATEGORIES, POST_SERIES, PROOF_LEVELS } from "../../utils/postMarkdown";
 ---
 
 <BaseLayout title="admin" description="Nimdal blog editor." canonicalPath="/admin/" noindex>
-  <main class="admin-shell">
+  <main class="admin-shell" id="main-content">
     <section class="admin-panel admin-gate" id="admin-gate">
       <div>
         <p class="eyebrow">admin</p>
@@ -77,9 +77,41 @@ import { POST_CATEGORIES } from "../../utils/postMarkdown";
             </label>
           </div>
 
+          <div class="field-grid">
+            <label>
+              <span>Series</span>
+              <select id="series" name="series">
+                <option value="">none</option>
+                {POST_SERIES.map((series) => <option value={series}>{series}</option>)}
+              </select>
+            </label>
+            <label>
+              <span>Proof level</span>
+              <select id="proofLevel" name="proofLevel">
+                {PROOF_LEVELS.map((level) => <option value={level}>{level}</option>)}
+              </select>
+            </label>
+          </div>
+
           <label>
             <span>Tags</span>
             <input id="tags" name="tags" placeholder="web3, product, research" />
+          </label>
+
+          <div class="field-grid">
+            <label>
+              <span>Related project</span>
+              <input id="relatedProject" name="relatedProject" placeholder="maple-union" />
+            </label>
+            <label>
+              <span>Hero label</span>
+              <input id="heroLabel" name="heroLabel" placeholder="Build Log / Game Utility" />
+            </label>
+          </div>
+
+          <label>
+            <span>Summary bullets</span>
+            <textarea id="summaryBullets" name="summaryBullets" rows="3" placeholder="One bullet per line"></textarea>
           </label>
 
           <div class="field-grid">
@@ -148,7 +180,12 @@ import { POST_CATEGORIES } from "../../utils/postMarkdown";
     publishedAt: document.querySelector("#publishedAt"),
     category: document.querySelector("#category"),
     lang: document.querySelector("#lang"),
+    series: document.querySelector("#series"),
+    proofLevel: document.querySelector("#proofLevel"),
     tags: document.querySelector("#tags"),
+    relatedProject: document.querySelector("#relatedProject"),
+    heroLabel: document.querySelector("#heroLabel"),
+    summaryBullets: document.querySelector("#summaryBullets"),
     cover: document.querySelector("#cover"),
     coverAlt: document.querySelector("#coverAlt"),
     featured: document.querySelector("#featured"),
@@ -272,7 +309,12 @@ import { POST_CATEGORIES } from "../../utils/postMarkdown";
     fields.publishedAt.value = new Date().toISOString().slice(0, 10);
     fields.category.value = "note";
     fields.lang.value = "en";
+    fields.series.value = "";
+    fields.proofLevel.value = "none";
     fields.tags.value = "";
+    fields.relatedProject.value = "";
+    fields.heroLabel.value = "";
+    fields.summaryBullets.value = "";
     fields.cover.value = "/media/identity-octopus.jpg";
     fields.coverAlt.value = "Nimdal pixel octopus identity.";
     fields.featured.checked = false;
@@ -290,7 +332,12 @@ import { POST_CATEGORIES } from "../../utils/postMarkdown";
     fields.publishedAt.value = post.publishedAt || new Date().toISOString().slice(0, 10);
     fields.category.value = post.category || "note";
     fields.lang.value = post.lang || "en";
+    fields.series.value = post.series || "";
+    fields.proofLevel.value = post.proofLevel || "none";
     fields.tags.value = Array.isArray(post.tags) ? post.tags.join(", ") : "";
+    fields.relatedProject.value = post.relatedProject || "";
+    fields.heroLabel.value = post.heroLabel || "";
+    fields.summaryBullets.value = Array.isArray(post.summaryBullets) ? post.summaryBullets.join("\n") : "";
     fields.cover.value = post.cover || "/media/identity-octopus.jpg";
     fields.coverAlt.value = post.coverAlt || "";
     fields.featured.checked = Boolean(post.featured);
@@ -307,7 +354,12 @@ import { POST_CATEGORIES } from "../../utils/postMarkdown";
       publishedAt: fields.publishedAt.value,
       category: fields.category.value,
       lang: fields.lang.value,
+      series: fields.series.value,
+      proofLevel: fields.proofLevel.value,
       tags: fields.tags.value.split(",").map((tag) => tag.trim()).filter(Boolean),
+      relatedProject: fields.relatedProject.value,
+      heroLabel: fields.heroLabel.value,
+      summaryBullets: fields.summaryBullets.value.split("\n").map((item) => item.trim()).filter(Boolean),
       cover: fields.cover.value,
       coverAlt: fields.coverAlt.value,
       featured: fields.featured.checked,
