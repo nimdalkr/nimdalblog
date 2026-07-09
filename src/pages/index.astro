@@ -10,6 +10,15 @@ const posts = getPublishedPosts(await getCollection("posts"));
 const featured = posts.find((post) => post.data.featured) ?? posts[0];
 const rest = posts.filter((post) => post.id !== featured?.id);
 const tags = getTags(posts);
+const proofPosts = posts.filter((post) => post.data.proofLevel && post.data.proofLevel !== "none");
+const connectedPosts = posts.filter((post) => post.data.relatedProject);
+const visualPosts = posts.filter((post) => post.data.cover);
+const proofLedger = [
+  { label: "Published notes", value: posts.length, detail: "public archive entries" },
+  { label: "Proof-backed", value: proofPosts.length, detail: "posts with evidence status" },
+  { label: "Project bridges", value: connectedPosts.length, detail: "linked to nimdal.xyz rooms" },
+  { label: "Visual records", value: visualPosts.length, detail: "posts with captured media" }
+];
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -77,6 +86,22 @@ const jsonLd = {
         </p>
       </div>
       <a class="desk-link" href={site.mainUrl}>Return to portfolio</a>
+    </section>
+
+    <section class="proof-ledger" aria-label="nimdalog proof ledger">
+      <div class="ledger-copy">
+        <p class="section-kicker">proof ledger</p>
+        <h2>Every post should carry a reason to exist.</h2>
+      </div>
+      <div class="ledger-grid">
+        {proofLedger.map((item) => (
+          <article>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </div>
     </section>
 
     <section class="series-rail" aria-label="Editorial series">

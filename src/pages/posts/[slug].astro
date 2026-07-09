@@ -117,6 +117,21 @@ const breadcrumbJsonLd = {
         </div>
       </header>
 
+      <aside class="article-proof-strip" aria-label="Post proof status">
+        <div>
+          <span>Series</span>
+          <strong>{post.data.series ?? post.data.category}</strong>
+        </div>
+        <div>
+          <span>Proof</span>
+          <strong>{post.data.proofLevel}</strong>
+        </div>
+        <div>
+          <span>Bridge</span>
+          <strong>{project?.label ?? "archive note"}</strong>
+        </div>
+      </aside>
+
       <figure class="article-cover">
         <img src={cover} alt={coverAlt} />
       </figure>
