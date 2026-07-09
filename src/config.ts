@@ -35,7 +35,7 @@ export const series = [
 export const projectLinks = {
   "maple-union": {
     label: "maple uNion",
-    href: "https://nimdal.xyz/#project-maple-union"
+    href: "https://nimdal.xyz/?project=maple-union&room=proof"
   },
   nimdalxyz: {
     label: "nimdal.xyz",

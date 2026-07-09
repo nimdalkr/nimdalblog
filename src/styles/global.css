@@ -916,6 +916,60 @@ img {
   white-space: nowrap;
 }
 
+.case-room-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid rgba(7, 90, 120, 0.28);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(41, 167, 202, 0.12), transparent 58%),
+    rgba(255, 255, 255, 0.84);
+  margin-top: 0.75rem;
+  padding: 1rem;
+}
+
+.case-room-bridge span {
+  display: block;
+  color: var(--deep);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.case-room-bridge strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #263039;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.case-room-bridge p {
+  max-width: 40rem;
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.case-room-bridge a {
+  display: inline-flex;
+  min-height: 2.55rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(7, 90, 120, 0.38);
+  border-radius: 999px;
+  background: #eaf9fd;
+  color: var(--deep);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 760;
+  padding: 0 0.9rem;
+}
+
 .article-cover {
   overflow: hidden;
   height: 24rem;
@@ -1402,8 +1456,13 @@ img {
   .ledger-grid,
   .series-rail,
   .article-brief,
-  .article-proof-strip {
+  .article-proof-strip,
+  .case-room-bridge {
     grid-template-columns: 1fr;
+  }
+
+  .case-room-bridge a {
+    width: 100%;
   }
 
   .ledger-grid article {

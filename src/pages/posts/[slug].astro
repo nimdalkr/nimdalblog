@@ -132,6 +132,17 @@ const breadcrumbJsonLd = {
         </div>
       </aside>
 
+      {project && (
+        <aside class="case-room-bridge" id="case-room-proof" aria-label="Case room proof bridge">
+          <div>
+            <span>Case room proof</span>
+            <strong>{project.label}</strong>
+            <p>This article is the proof layer connected to the portfolio case room.</p>
+          </div>
+          <a href={project.href}>Return to proof room</a>
+        </aside>
+      )}
+
       <figure class="article-cover">
         <img
           src={cover}
