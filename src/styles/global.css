@@ -851,13 +851,16 @@ img {
 
 .article-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 3.2rem;
+  grid-template-columns: minmax(0, 52rem) minmax(260px, 320px);
+  gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
+  justify-content: center;
+  width: min(1240px, calc(100% - 40px));
 }
 
 .article {
   min-width: 0;
+  max-width: 52rem;
 }
 
 .article-header {
@@ -868,13 +871,13 @@ img {
 }
 
 .article-header h1 {
-  max-width: 48rem;
+  max-width: 52rem;
   font-size: clamp(2.5rem, 6vw, 4.8rem);
   line-height: 1.02;
 }
 
 .article-header > p {
-  max-width: 45rem;
+  max-width: 48rem;
   margin: 0;
   color: var(--muted);
   font-size: 1.08rem;
@@ -924,10 +927,11 @@ img {
   border: 1px solid rgba(7, 90, 120, 0.28);
   border-radius: 16px;
   background:
-    linear-gradient(135deg, rgba(41, 167, 202, 0.12), transparent 58%),
+    linear-gradient(135deg, rgba(41, 167, 202, 0.18), transparent 58%),
+    radial-gradient(circle at 92% 18%, rgba(255, 226, 167, 0.34), transparent 7rem),
     rgba(255, 255, 255, 0.84);
   margin-top: 0.75rem;
-  padding: 1rem;
+  padding: 1.15rem;
 }
 
 .case-room-bridge span {
@@ -957,7 +961,7 @@ img {
 
 .case-room-bridge a {
   display: inline-flex;
-  min-height: 2.55rem;
+  min-height: 2.8rem;
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(7, 90, 120, 0.38);
@@ -972,7 +976,7 @@ img {
 
 .article-cover {
   overflow: hidden;
-  height: 24rem;
+  height: clamp(22rem, 44vw, 30rem);
   border: 1px solid var(--line);
   border-radius: 16px;
   margin: 1.6rem 0 2.4rem;
@@ -990,7 +994,7 @@ img {
 
 .article-brief {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(180px, 0.75fr) minmax(180px, 0.75fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(190px, 0.8fr) minmax(190px, 0.8fr);
   gap: 0.85rem;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -1043,7 +1047,7 @@ img {
 }
 
 .prose {
-  max-width: 47rem;
+  max-width: 52rem;
   padding-bottom: 4rem;
 }
 
@@ -1069,8 +1073,8 @@ img {
 .prose p,
 .prose li {
   color: #3f4e59;
-  font-size: 1.04rem;
-  line-height: 1.84;
+  font-size: 1.08rem;
+  line-height: 1.86;
 }
 
 .prose p {
@@ -1101,11 +1105,20 @@ img {
   display: block;
   width: 100%;
   height: auto;
-  margin: 1.7rem 0 0.5rem;
+  margin: 2rem 0 0.65rem;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: #eef8fb;
   box-shadow: 0 18px 48px rgba(22, 47, 63, 0.12);
+}
+
+.prose p:has(img) {
+  margin: 2.1rem 0 0.75rem;
+}
+
+.prose p:has(img) + p > em:only-child {
+  border-left: 3px solid var(--cyan);
+  padding-left: 0.8rem;
 }
 
 .prose p > em:only-child {
@@ -1121,7 +1134,13 @@ img {
   top: 5.8rem;
   display: grid;
   gap: 0.9rem;
-  padding-top: 2.2rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    linear-gradient(160deg, rgba(41, 167, 202, 0.08), transparent 62%),
+    rgba(255, 255, 255, 0.68);
+  margin-top: 2.2rem;
+  padding: 1rem;
 }
 
 .related .post-card-media {

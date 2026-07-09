@@ -4,7 +4,7 @@ description: "maple uNion을 작은 방치형 RPG 프로토타입으로 정리�
 publishedAt: 2026-07-02
 category: "product"
 tags: ["maple-union", "game", "build-log", "vibecamp", "msu", "phaser"]
-cover: "/media/posts/maple-union-dev-log-2026-07-02-cover.png"
+cover: "/media/posts/maple-union-dev-log-2026-07-02-cover.webp"
 coverAlt: "maple uNion hunting field with skill effects, hunt tempo controls, guide notification, and bottom HUD."
 featured: true
 draft: false
@@ -20,7 +20,7 @@ maple uNion은 MapleStoryUniverse 리소스를 활용해서 만든 작은 방치
 
 처음 코드베이스는 Vite, React, Phaser, Zustand 조합으로 구성했어요. AFK 로직은 있었지만 실제 게임처럼 보이고 만져지는 느낌은 아직 부족했어요. 그래서 화면, 지도, 사냥 루프, 성장 시스템을 하나의 제품 흐름처럼 다시 묶었어요.
 
-![maple uNion hunting field](/media/posts/maple-union-dev-log-2026-07-02-cover.png)
+![maple uNion hunting field](/media/posts/maple-union-dev-log-2026-07-02-cover.webp)
 
 _사냥 필드, 스킬 이펙트, Guide 알림, 전투 템포, 하단 HUD를 함께 확인한 QA 캡처에요._
 
@@ -30,7 +30,7 @@ _사냥 필드, 스킬 이펙트, Guide 알림, 전투 템포, 하단 HUD를 함
 
 이 화면은 첫인상을 만드는 곳이에요. 사용자가 버튼을 누르기 전에 이 게임이 어떤 루프를 갖고 있는지 어느 정도 예상할 수 있어야 해요. 그래서 캐릭터 선택 화면에도 카드, 능력치, 전투 루프의 단서를 남겼어요.
 
-![maple uNion character select screen](/media/posts/maple-union-dev-log-2026-07-02-character-select.png)
+![maple uNion character select screen](/media/posts/maple-union-dev-log-2026-07-02-character-select.webp)
 
 _캐릭터 선택 화면은 maple uNion의 첫인상을 만드는 구간이라 UI 밀도를 조금 높였어요._
 
@@ -42,7 +42,7 @@ HUD도 다시 정리했어요. 하단에는 Stats, Skills, Items, Union, Map, Ra
 
 이 과정에서 사냥터 데이터도 다시 정리했어요. 월드맵, Auto Quest, 실제 필드가 서로 다른 기준을 가지면 화면은 금방 어색해져요. 그래서 사냥터 이름, 몬스터 정보, 추천 레벨, 지역 정보를 같은 흐름으로 묶었어요.
 
-![maple uNion all stages contact sheet](/media/posts/maple-union-dev-log-2026-07-02-stage-sheet.png)
+![maple uNion all stages contact sheet](/media/posts/maple-union-dev-log-2026-07-02-stage-sheet.webp)
 
 _여러 사냥터를 같은 기준으로 캡처해서, 몬스터와 캐릭터가 지형 위에 자연스럽게 서는지 확인했어요._
 
@@ -52,13 +52,13 @@ maple uNion의 핵심은 켜두면 성장하지만, 중간중간 개입할 이�
 
 기능이 많다는 것보다 중요한 건 서로 연결되는 레이어에요. 사냥으로 장비가 떨어지고, 좋은 장비는 인벤토리와 강화 화면에서 다시 보이고, 강화는 전투력과 사냥 효율에 영향을 줘야 해요. 유니온과 보상도 계정 단위 성장으로 이어지도록 잡았어요.
 
-![maple uNion field with active buffs](/media/posts/maple-union-dev-log-2026-07-02-field-buffs.png)
+![maple uNion field with active buffs](/media/posts/maple-union-dev-log-2026-07-02-field-buffs.webp)
 
 _버프, 장비 반영, 몬스터 배치, 필드 섬네일이 실제 플레이 화면에서 함께 보이도록 정리했어요._
 
 확률 요소도 숨기지 않으려고 했어요. 장비 등급, 옵션, 스타포스, 보상처럼 확률이 들어가는 부분은 Options 안에 Probability Info로 정리했어요. 작은 프로토타입이어도 사용자가 시스템을 이해할 수 있어야 한다고 봤어요.
 
-![maple uNion probability guide](/media/posts/maple-union-dev-log-2026-07-02-probability-guide.png)
+![maple uNion probability guide](/media/posts/maple-union-dev-log-2026-07-02-probability-guide.webp)
 
 _확률 정보는 Options 안에서 항목별로 확인할 수 있게 만들었어요._
 
@@ -68,7 +68,7 @@ _확률 정보는 Options 안에서 항목별로 확인할 수 있게 만들었�
 
 그래서 원본 맵 렌더를 실제 플레이 지형에 맞추는 방향으로 구조를 바꿨어요. 캐릭터와 몬스터가 같은 발판 기준 위에 서게 하고, 사냥 구간은 최대한 읽기 쉬운 구조로 제한했어요. 월드맵 카드, HUD 미니맵, 실제 사냥 필드가 서로 다른 그림처럼 보이지 않도록 맞추는 데 시간이 꽤 들었어요.
 
-![maple uNion map render QA sheet](/media/posts/maple-union-dev-log-2026-07-02-map-render-qa.png)
+![maple uNion map render QA sheet](/media/posts/maple-union-dev-log-2026-07-02-map-render-qa.webp)
 
 _맵 렌더 QA는 화면과 실제 플레이 지형을 맞추기 위한 작업이었어요._
 

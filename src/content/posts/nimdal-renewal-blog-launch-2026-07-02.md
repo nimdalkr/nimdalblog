@@ -4,7 +4,7 @@ description: "개인 포트폴리오와 블로그를 분리하고, 보여주는 
 publishedAt: 2026-07-02
 category: "operation"
 tags: ["nimdal","portfolio","blog","build-log","astro","vercel"]
-cover: "/media/posts/nimdal-renewal-2026-07-02-portfolio.png"
+cover: "/media/posts/nimdal-renewal-2026-07-02-portfolio.webp"
 coverAlt: "Renewed nimdal.xyz homepage showing Tak Chanwoo and Nimdal pixel octopus identity."
 featured: false
 draft: false
@@ -20,7 +20,7 @@ summaryBullets: ["포트폴리오와 블로그의 역할을 분리했어요.", "
 
 이전에는 프로젝트 소개와 작업 기록이 한곳에 섞여 있었어요. 그러다 보니 첫 화면에서 보여줘야 할 정체성과, 글로 천천히 남겨야 할 과정이 서로 부딪혔어요. 그래서 역할을 나눴어요. 포트폴리오는 빠르게 보여주고, 블로그는 오래 읽히게 만드는 방향이에요.
 
-![Renewed nimdal.xyz homepage](/media/posts/nimdal-renewal-2026-07-02-portfolio.png)
+![Renewed nimdal.xyz homepage](/media/posts/nimdal-renewal-2026-07-02-portfolio.webp)
 
 ## 포트폴리오는 더 명확하게
 
@@ -36,7 +36,7 @@ summaryBullets: ["포트폴리오와 블로그의 역할을 분리했어요.", "
 
 관리 화면도 붙였어요. GitHub OAuth로 로그인한 뒤 글을 작성하고 수정할 수 있게 만들었고, 나만 글을 올릴 수 있도록 권한을 제한했어요.
 
-![New blog homepage](/media/posts/nimdal-renewal-2026-07-02-blog.png)
+![New blog homepage](/media/posts/nimdal-renewal-2026-07-02-blog.webp)
 
 ## 왜 분리했는지
 
