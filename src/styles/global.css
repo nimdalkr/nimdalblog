@@ -3,8 +3,8 @@
   --paper: #ffffff;
   --paper-soft: #f1f7fa;
   --ink: #1c252c;
-  --muted: #66737d;
-  --faint: #8a98a4;
+  --muted: #53626d;
+  --faint: #6f7f8b;
   --line: #dbe6ec;
   --line-strong: #bfd0da;
   --cyan: #29a7ca;
@@ -53,8 +53,9 @@ a {
 }
 
 a:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 4px;
+  outline: 3px solid var(--deep);
+  outline-offset: 5px;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.86);
 }
 
 img {
@@ -220,7 +221,7 @@ img {
 .back-link,
 .section-kicker {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 760;
   letter-spacing: 0;
   text-transform: none;
@@ -228,7 +229,10 @@ img {
 
 .site-header nav a,
 .back-link {
+  display: inline-flex;
   color: var(--muted);
+  min-height: 2.3rem;
+  align-items: center;
   transition: color 180ms var(--ease), transform 180ms var(--ease);
 }
 
@@ -649,14 +653,14 @@ img {
 .tag-strip a,
 .post-tags a {
   display: inline-flex;
-  min-height: 1.8rem;
+  min-height: 2.08rem;
   align-items: center;
   gap: 0.4rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
-  color: var(--muted);
-  padding: 0 0.66rem;
+  color: #334652;
+  padding: 0 0.72rem;
   transition: border-color 180ms var(--ease), background 180ms var(--ease), color 180ms var(--ease), transform 180ms var(--ease);
 }
 
@@ -760,7 +764,7 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 0.58rem;
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .post-meta span:first-child {
@@ -822,9 +826,9 @@ img {
 }
 
 .post-tags a {
-  min-height: 1.62rem;
-  font-size: 0.62rem;
-  padding: 0 0.55rem;
+  min-height: 2.08rem;
+  font-size: 0.72rem;
+  padding: 0 0.68rem;
 }
 
 .archive-heading {
@@ -897,7 +901,7 @@ img {
   display: block;
   color: var(--deep);
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 760;
   text-transform: uppercase;
 }
@@ -960,9 +964,9 @@ img {
 
 .article-brief li,
 .article-brief a {
-  color: #3f4e59;
-  font-size: 0.92rem;
-  line-height: 1.55;
+  color: #31424d;
+  font-size: 0.98rem;
+  line-height: 1.62;
 }
 
 .article-brief nav {
@@ -979,7 +983,7 @@ img {
   background: #eaf9fd;
   color: var(--deep);
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 760;
   padding: 0 0.72rem;
 }
@@ -1033,8 +1037,9 @@ img {
 
 .prose a {
   color: var(--deep);
+  font-weight: 690;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
   text-underline-offset: 4px;
 }
 
@@ -1363,7 +1368,12 @@ img {
 
   .site-header nav {
     justify-content: flex-start;
-    gap: 0.82rem;
+    gap: 0.58rem;
+  }
+
+  .site-header nav a {
+    min-height: 2.4rem;
+    font-size: 0.78rem;
   }
 
   .home-shell,
@@ -1468,6 +1478,15 @@ img {
   .post-meta {
     gap: 0.46rem;
     line-height: 1.35;
+  }
+
+  .post-tags a {
+    min-height: 2.15rem;
+    font-size: 0.72rem;
+  }
+
+  .article-proof-strip span {
+    font-size: 0.72rem;
   }
 
   .post-card-media,
