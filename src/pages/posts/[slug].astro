@@ -133,7 +133,15 @@ const breadcrumbJsonLd = {
       </aside>
 
       <figure class="article-cover">
-        <img src={cover} alt={coverAlt} />
+        <img
+          src={cover}
+          alt={coverAlt}
+          width="1280"
+          height="720"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
       </figure>
 
       {(post.data.summaryBullets.length > 0 || toc.length > 0 || project) && (
