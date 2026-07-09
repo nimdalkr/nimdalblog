@@ -787,7 +787,10 @@ img {
   color: #263039;
   font-weight: 780;
   letter-spacing: -0.045em;
+  line-break: strict;
   text-transform: none;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .post-card h2 {
@@ -1440,6 +1443,31 @@ img {
   .post-card h2,
   .post-card.is-featured h2 {
     font-size: 1.55rem;
+    line-height: 1.18;
+  }
+
+  .article-header {
+    gap: 0.82rem;
+    padding: 1.75rem 0 1.35rem;
+  }
+
+  .article-header h1 {
+    max-width: 100%;
+    font-size: clamp(2.08rem, 11.5vw, 3rem);
+    letter-spacing: -0.032em;
+    line-height: 1.08;
+  }
+
+  .article-header > p {
+    font-size: 1rem;
+    line-height: 1.62;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .post-meta {
+    gap: 0.46rem;
+    line-height: 1.35;
   }
 
   .post-card-media,
