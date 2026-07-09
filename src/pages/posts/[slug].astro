@@ -158,25 +158,41 @@ const breadcrumbJsonLd = {
       {(post.data.summaryBullets.length > 0 || toc.length > 0 || project) && (
         <aside class="article-brief" aria-label="Article brief">
           {post.data.summaryBullets.length > 0 && (
-            <section>
+            <section class="article-brief-summary-desktop">
               <h2>Field summary</h2>
               <ul>
                 {post.data.summaryBullets.map((item) => <li>{item}</li>)}
               </ul>
             </section>
           )}
+          {post.data.summaryBullets.length > 0 && (
+            <details class="article-brief-summary-mobile">
+              <summary>
+                <span>Field summary</span>
+                <strong>{post.data.summaryBullets.length} field notes</strong>
+              </summary>
+              <ul>
+                {post.data.summaryBullets.map((item) => <li>{item}</li>)}
+              </ul>
+            </details>
+          )}
           {toc.length > 0 && (
-            <section>
+            <section class="article-brief-contents">
               <h2>Contents</h2>
               <nav aria-label="Article table of contents">
-                {toc.map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}
+                {toc.map((heading) => (
+                  <a class={`toc-depth-${heading.depth}`} href={`#${heading.slug}`}>{heading.text}</a>
+                ))}
               </nav>
             </section>
           )}
           {project && (
             <section class="project-bridge">
               <h2>Related project</h2>
-              <a href={project.href}>{project.label}</a>
+              <a href={project.href}>
+                <span>Related project</span>
+                <strong>{project.label}</strong>
+              </a>
             </section>
           )}
         </aside>
